@@ -1,1 +1,1 @@
-console.log("Allah Is Almighty.");
+console.log("Allah is the Most Powerful.");
