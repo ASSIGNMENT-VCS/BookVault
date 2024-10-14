@@ -6,9 +6,46 @@
     <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
     <!-- Favicon link -->
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
   <body>
-    <h1>Allah Is Almighty.</h1>
+    <!-- Header  -->
+    <!-- NavBar  -->
+    <section class="container">
+      <header>
+        <div class="logo">
+          <h2>BookVault</h2>
+        </div>
+        <div class="search">
+          <form action="/search" method="get">
+            <input type="text" name="q" placeholder="Enter your search query" />
+            <input type="submit" value="Search" />
+          </form>
+        </div>
+        <div class="icon">
+          <div class="svgicon">
+            <svg
+              width="32"
+              height="33"
+              viewBox="0 0 32 33"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
+                stroke="#1A1A1A"
+                stroke-width="1.5"
+              />
+            </svg>
+          </div>
+          <div class="count">
+            <p>99</p>
+          </div>
+        </div>
+      </header>
+    </section>
+    <!-- Footer -->
+    <!-- <h1>Allah Is Almighty.</h1> -->
     <script src="script.js"></script>
   </body>
 </html>
