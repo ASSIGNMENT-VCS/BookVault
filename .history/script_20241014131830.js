@@ -1,0 +1,1 @@
+alert("Allah Is Almighty.");
