@@ -1,165 +1,54 @@
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
-
-/* HTML5 display-role reset for older browsers */
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-menu,
-nav,
-section {
-  display: block;
-}
-
-body {
-  line-height: 1;
-}
-
-ol,
-ul {
-  list-style: none;
-}
-
-blockquote,
-q {
-  quotes: none;
-}
-
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-  content: "";
-  content: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
 .container {
-  width: 768px;
+  width: auto;
   margin: auto;
-  padding: 0 4px;
+  padding: 0 16px;
 }
-
-header {
+.container .wrapper {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container .wrapper header {
+  display: grid;
+  grid-template: "logo icon" "search search";
   padding: 20px 0;
-  margin-bottom: 40px;
+  row-gap: 10px;
   border-bottom: 1px solid #e5e7eb;
 }
-header .logo h2 {
+.container .wrapper header .logo {
+  grid-area: logo;
+  text-decoration: none;
+  color: inherit;
+}
+.container .wrapper header .logo h2 {
   font-size: 30px;
 }
-header .search input {
+.container .wrapper header .search {
+  grid-area: search;
+}
+.container .wrapper header .search form input {
   height: 35px;
-  width: 280px;
+  width: -webkit-fill-available;
   border-radius: 5px;
-  border: 1px solid;
+  border: 1px solid #e5e7eb;
   padding: 0 10px;
 }
-header .icon {
-  position: relative;
+.container .wrapper header .search form input:focus {
+  outline: none;
+  border: 1px solid black;
 }
-header .icon .count {
+.container .wrapper header .icon {
+  justify-items: end;
+}
+.container .wrapper header .icon div {
+  grid-area: icon;
+  position: relative;
+  cursor: pointer;
+}
+.container .wrapper header .icon div .count {
   position: absolute;
   top: -5px;
-  left: -10px;
+  right: 20px;
   height: 20px;
   width: 20px;
   background-color: black;
@@ -170,13 +59,67 @@ header .icon .count {
   border-radius: 50%;
   font-size: 12px;
 }
-
-footer {
+.container .wrapper .content {
+  flex: 1;
+  margin: 40px 0;
+}
+.container .wrapper .content #homepage .total_item__filter {
+  margin-bottom: 25px;
+}
+.container .wrapper .content #homepage .total_item__filter p {
+  margin-bottom: 10px;
+}
+.container .wrapper .content #homepage .total_item__filter select {
+  height: 35px;
+  width: -webkit-fill-available;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+}
+.container .wrapper .content #homepage .total_item__filter select:focus {
+  outline: none;
+  border-bottom: 1px solid black;
+}
+.container .wrapper .content #homepage .items {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.container .wrapper footer {
   padding: 20px 0;
-  margin-top: 40px;
   border-top: 1px solid #e5e7eb;
   text-align: center;
 }
-footer span {
+.container .wrapper footer span {
   font-weight: bold;
+}
+
+/* Min screen 426px & Max screen 9999px */
+@media (min-width: 425px) {
+  .container .wrapper .content #homepage .total_item__filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .container .wrapper .content #homepage .total_item__filter p {
+    margin: unset;
+  }
+  .container .wrapper .content #homepage .total_item__filter select {
+    width: 25% !important;
+  }
+  .container .wrapper .content #homepage .items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* Min screen 768px & Max screen 9999px */
+@media (min-width: 768px) {
+  .container {
+    width: 768px;
+  }
+  .container .wrapper header {
+    grid-template: "logo search icon";
+  }
+  .container .wrapper .content #homepage .items {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
