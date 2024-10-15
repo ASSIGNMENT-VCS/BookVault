@@ -69,7 +69,6 @@
       // HomePage
       #homepage {
         .total_item__filter {
-          margin-bottom: 25px;
           p {
             margin-bottom: 10px;
           }
@@ -85,6 +84,7 @@
           }
         }
         .items {
+          margin: 25px 0;
           display: grid;
           grid-template-columns: 1fr;
           gap: 16px;
@@ -132,6 +132,9 @@
               }
             }
           }
+        }
+        .pagination {
+          text-align: center;
         }
       }
     }
