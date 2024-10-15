@@ -1,28 +1,18 @@
-// const APIURL = "https://gutendex.com/books";
-const APIURL = "assets/js/books.json";
-
+import { FetchData, ROOTAPIURL } from "./utils.js";
+const APIURL = `${ROOTAPIURL}/books`;
+// const APIURL = "assets/js/books.json";
 const BOOKLISTS = [];
-const ContainerToShowBooksInHomePage =
-  document.querySelector("#homepage .items");
-
-let books = async () => {
-  let response = await fetch(APIURL);
-  let data = await response.json();
-  return data;
-};
-
-books()
-  .then((data) => {
-    BOOKLISTS.push(...data.results);
-    BOOKLISTS.forEach((item) => {
-      ContainerToShowBooksInHomePage.innerHTML += `
-      <div class="flip-card">
+const htmlContainer = document.querySelector("#homepage .items");
+try {
+  let data = await FetchData(APIURL);
+  BOOKLISTS.push(...data.results);
+  BOOKLISTS.forEach((item) => {
+    htmlContainer.innerHTML += `<div class="flip-card">
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
                     <img
                       src="${item?.formats["image/jpeg"]}"
                       alt="Avatar"
-                      
                     />
                   </div>
                   <div class="flip-card-back">
@@ -50,16 +40,8 @@ books()
                     </div>
                   </div>
                 </div>
-              </div>
-      `;
-    });
-  })
-  .catch((e) => {
-    console.log(e);
+              </div>`;
   });
-
-// async function showDetails(bookId) {
-//   window.location.href = `details.html?id=${bookId}`;
-//   // let book = await fetchBook();
-//   // console.log(book);
-// }
+} catch (error) {
+  console.log(error);
+}

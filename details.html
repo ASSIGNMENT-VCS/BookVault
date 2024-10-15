@@ -80,42 +80,32 @@
       </div>
     </div>
     <!-- <script src="./assets/js/script.js"></script> -->
-    <script>
+    <script type="module">
+      import { FetchData, ROOTAPIURL } from "./assets/js/utils.js";
       const params = new URLSearchParams(window.location.search);
-      console.log(params.get("id"));
       const bookId = params.get("id");
-      const APIURLFORBOOK = `https://gutendex.com/books/${bookId}`;
-      const ContainerToShowBooksInHomePage =
-        document.querySelector("#bookDetails");
-      // const APIURLFORBOOK = "assets/js/book.json";
-      let fetchBook = async () => {
-        let response = await fetch(APIURLFORBOOK);
-        let data = await response.json();
-        return data;
-      };
-      fetchBook()
-        .then((item) => {
-          console.log(item);
-          ContainerToShowBooksInHomePage.innerHTML += `
-<div class="bookimage">
-              <img
-               src="${item?.formats["image/jpeg"]}"
-                alt="Book Image"
-              />
-            </div>
-            <div class="bookcontent">
-              <h1>Name: ${item?.title}</h1>
-                      <br/>
-                      <p>Author : ${item?.authors[0]?.name}</p>
-                      <br/>
-            </div>
+      const APIURL = `${ROOTAPIURL}/books/${bookId}`;
+      const htmlContainer = document.querySelector("#bookDetails");
+      try {
+        let item = await FetchData(APIURL);
+        htmlContainer.innerHTML += `
+      <div class="bookimage">
+                    <img
+                     src="${item?.formats["image/jpeg"]}"
+                      alt="Book Image"
+                    />
+                  </div>
+                  <div class="bookcontent">
+                    <h1>Name: ${item?.title}</h1>
+                            <br/>
+                            <p>Author : ${item?.authors[0]?.name}</p>
+                            <br/>
+                  </div>
 
-
-      `;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+            `;
+      } catch (error) {
+        console.log(error);
+      }
     </script>
   </body>
 </html>
