@@ -137,6 +137,36 @@
           text-align: center;
         }
       }
+      #bookDetails {
+        .bookimage {
+          text-align: center;
+          margin-bottom: 25px;
+          img {
+            width: 50%;
+          }
+        }
+      }
+      #wishlist {
+        .wishlisted_book {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex-direction: row;
+          border: 1px solid #e5e7eb;
+          padding: 10px;
+          border-radius: 5px;
+          margin-bottom: 15px;
+          .wish_book_image {
+            img {
+              height: 50px;
+            }
+          }
+          .wish_book_content {
+            margin: 0 10px;
+          }
+        }
+      }
     }
     // Footer
     footer {
