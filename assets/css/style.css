@@ -44,6 +44,8 @@
   grid-area: icon;
   position: relative;
   cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
 }
 .container .wrapper header .icon div .count {
   position: absolute;
@@ -121,6 +123,15 @@
   background-color: white;
   color: black;
   transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back .wishlist_icon_flip {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  cursor: pointer;
 }
 .container .wrapper .content #homepage .pagination {
   text-align: center;

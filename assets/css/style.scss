@@ -45,6 +45,8 @@
           grid-area: icon;
           position: relative;
           cursor: pointer;
+          display: flex;
+          justify-content: flex-end;
           .count {
             position: absolute;
             top: -5px;
@@ -129,6 +131,15 @@
                 background-color: white;
                 color: black;
                 transform: rotateY(180deg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .wishlist_icon_flip {
+                  position: absolute;
+                  top: 0;
+                  right: 15px;
+                  cursor: pointer;
+                }
               }
             }
           }
