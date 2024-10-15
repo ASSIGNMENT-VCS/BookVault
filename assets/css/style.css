@@ -84,6 +84,46 @@
   grid-template-columns: 1fr;
   gap: 16px;
 }
+.container .wrapper .content #homepage .items .flip-card {
+  background-color: transparent;
+  width: 100%;
+  height: 300px;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  perspective: 1000px;
+  padding: 20px 0;
+}
+.container .wrapper .content #homepage .items .flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.container .wrapper .content #homepage .items .flip-card .flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1.2s;
+  transform-style: preserve-3d;
+  -webkit-transition: transform 1.2s;
+  -moz-transition: transform 1.2s;
+  -ms-transition: transform 1.2s;
+  -o-transition: transform 1.2s;
+}
+.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-front,
+.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 300px;
+  backface-visibility: hidden;
+}
+.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-front {
+  background-color: transparent;
+  color: black;
+}
+.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back {
+  background-color: white;
+  color: black;
+  transform: rotateY(180deg);
+}
 .container .wrapper footer {
   padding: 20px 0;
   border-top: 1px solid #e5e7eb;
@@ -107,6 +147,12 @@
   .container .wrapper .content #homepage .total_item__filter select {
     width: 25% !important;
   }
+  .container .wrapper .content #homepage .items {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+/* Min screen 426px & Max screen 9999px */
+@media (min-width: 500px) {
   .container .wrapper .content #homepage .items {
     grid-template-columns: repeat(2, 1fr);
   }
