@@ -20,7 +20,7 @@ books()
                     <img
                       src="${item.formats["image/jpeg"]}"
                       alt="Avatar"
-                      style="width: auto; height: 100%"
+                      
                     />
                   </div>
                   <div class="flip-card-back">
