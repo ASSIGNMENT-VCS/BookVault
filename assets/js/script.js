@@ -1,8 +1,10 @@
 // const APIURL = "https://gutendex.com/books";
-const APIURL = "assets/js/data.json";
+const APIURL = "assets/js/books.json";
+
 const BOOKLISTS = [];
 const ContainerToShowBooksInHomePage =
   document.querySelector("#homepage .items");
+
 let books = async () => {
   let response = await fetch(APIURL);
   let data = await response.json();
@@ -18,7 +20,7 @@ books()
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
                     <img
-                      src="${item.formats["image/jpeg"]}"
+                      src="${item?.formats["image/jpeg"]}"
                       alt="Avatar"
                       
                     />
@@ -40,9 +42,11 @@ books()
                       </svg>
                     </div>
                     <div class="content_flip">
-                      <h1>${item.title}</h1>
-                      <p>${item.authors[0].name}</p>
-                      <a href="details.html">Read More</a>
+                      <h1>Name: ${item?.title}</h1>
+                      <br/>
+                      <p>Author : ${item?.authors[0]?.name}</p>
+                      <br/>
+                      <a href="details.html?id=${item?.id}" target="_blank">Read More</a>
                     </div>
                   </div>
                 </div>
@@ -54,17 +58,8 @@ books()
     console.log(e);
   });
 
-// async function loopinhtml() {
-//   let data = await books();
-//   if (Object.keys(data).length === 0) {
-//     console.log("JSON object is empty");
-//   } else {
-//     console.log("JSON object is not empty");
-//     BOOKLISTS.push(...data.results);
-//     BOOKLISTS.forEach((item) => {
-//       console.log(item.id);
-//     });
-//   }
+// async function showDetails(bookId) {
+//   window.location.href = `details.html?id=${bookId}`;
+//   // let book = await fetchBook();
+//   // console.log(book);
 // }
-
-// loopinhtml();
