@@ -146,6 +146,9 @@
         }
         .pagination {
           text-align: center;
+          a {
+            padding: 5px;
+          }
         }
       }
       #bookDetails {
