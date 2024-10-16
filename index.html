@@ -110,11 +110,18 @@
         </footer>
       </div>
     </div>
+    <script>
+      const BOOKLISTS = [];
+      function showAlert() {
+        alert("You clicked the Previous link!");
+        console.log("WithOut Module Booklist", BOOKLISTS);
+      }
+    </script>
     <script type="module">
       import { FetchData, ROOTAPIURL } from "./assets/js/utils.js";
       const APIURL = `${ROOTAPIURL}/books`;
       // const APIURL = "assets/js/books.json";
-      const BOOKLISTS = [];
+
       const htmlContainer = document.querySelector("#homepage .items");
       try {
         let data = await FetchData(APIURL);
@@ -157,11 +164,6 @@
         });
       } catch (error) {
         console.log(error);
-      }
-    </script>
-    <script>
-      function showAlert() {
-        alert("You clicked the Previous link!");
       }
     </script>
   </body>
