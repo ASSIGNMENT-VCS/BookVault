@@ -1,69 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
-    <!-- Favicon link -->
-    <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="./assets/css/reset.css" />
-    <link rel="stylesheet" href="./assets/css/style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="wrapper">
-        <!-- Header  -->
-        <header>
-          <a href="index.html" class="logo">
-            <h2>BookVault</h2>
-          </a>
-          <div class="search">
-            <form action="/search" method="get">
-              <input
-                type="text"
-                name="q"
-                placeholder="Enter your search query"
-              />
-            </form>
-          </div>
-          <div class="icon">
-            <div>
-              <div class="svgicon">
-                <svg
-                  width="32"
-                  height="33"
-                  viewBox="0 0 32 33"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
-                    stroke="#1A1A1A"
-                    stroke-width="1.5"
-                  />
-                </svg>
-              </div>
-              <div class="count">
-                <p>0</p>
-              </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
+  <!-- Favicon link -->
+  <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="./assets/css/reset.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <!-- Header  -->
+      <header>
+        <a href="index.html" class="logo">
+          <h2>BookVault</h2>
+        </a>
+        <div class="search">
+          <form action="/search" method="get">
+            <input type="text" name="q" placeholder="Enter your search query" />
+          </form>
+        </div>
+        <div class="icon">
+          <div>
+            <div class="svgicon">
+              <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
+                  stroke="#1A1A1A" stroke-width="1.5" />
+              </svg>
+            </div>
+            <div class="count">
+              <p>0</p>
             </div>
           </div>
-        </header>
-        <!-- Content  -->
-        <div class="content">
-          <div id="homepage">
-            <div class="total_item__filter">
-              <p>Showing 1–16 of 52 results</p>
-              <select name="cars" id="cars">
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
-              </select>
-            </div>
-            <div class="items">
-              <!-- Book  -->
-              <!-- <div class="flip-card">
+        </div>
+      </header>
+      <!-- Content  -->
+      <div class="content">
+        <div id="homepage">
+          <div class="total_item__filter">
+            <p>Showing 1–16 of 52 results</p>
+            <select name="cars" id="cars">
+              <option value="volvo">Volvo</option>
+              <option value="saab">Saab</option>
+              <option value="mercedes">Mercedes</option>
+              <option value="audi">Audi</option>
+            </select>
+          </div>
+          <div class="items">
+            <!-- Book  -->
+            <!-- <div class="flip-card">
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
                     <img
@@ -97,74 +87,133 @@
                   </div>
                 </div>
               </div> -->
+          </div>
+          <div class="pagination">
+            <button type="button" id="getPreviousBooks" onclick="getPreviousData()" disabled>&laquo; Previous</button>
+            <!-- <a href="#" id="getPreviousBooks" onclick="getPreviousData()">
+              &laquo; Previous
+            </a> -->
+            <button type="button" id="getNextBooks" onclick="getNextData()" disabled>Next &raquo;</button>
+            <!-- <a href="#" id="getNextBooks" onclick="getNextData()">Next &raquo;</a> -->
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <footer>
+        Feel free to drop a 'hello' @ <span>almahmudkhalif@gmail.com</span>
+      </footer>
+    </div>
+  </div>
+  <script>
+    const APIURL = "https://gutendex.com/books/?page=1";
+    const htmlContainer = document.querySelector("#homepage .items");
+    const previousBooksLink = document.getElementById("getPreviousBooks");
+    const nextBooksLink = document.getElementById("getNextBooks");
+
+    let DATA = [];
+
+    // Common Functions
+    // Fetch Data
+    const Fetching = async (url) => {
+      let response = await fetch(url);
+      let data = await response.json();
+      return data;
+    };
+
+    // HTML Layout Function
+    const HtmlLayout = (data) => {
+      let htmlContent = '';
+      data.forEach((item) => {
+        htmlContent += `
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="${item?.formats["image/jpeg"]}" alt="Avatar" />
+          </div>
+          <div class="flip-card-back">
+            <div class="wishlist_icon_flip">
+              <svg
+                width="32"
+                height="33"
+                viewBox="0 0 32 33"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
+                  stroke="#1A1A1A"
+                  stroke-width="1.5"
+                />
+              </svg>
             </div>
-            <div class="pagination">
-              <a href="#" onclick="showAlert()">&laquo; Previous</a>
-              <a href="#">Next &raquo;</a>
+            <div class="content_flip">
+              <h1>Name: ${item?.title}</h1>
+              <br/>
+              <p>Author: ${item?.authors[0]?.name}</p>
+              <br/>
+              <a href="details.html?id=${item?.id}" target="_blank">Read More</a>
             </div>
           </div>
         </div>
-        <!-- Footer -->
-        <footer>
-          Feel free to drop a 'hello' @ <span>almahmudkhalif@gmail.com</span>
-        </footer>
-      </div>
-    </div>
-    <script>
-      const BOOKLISTS = [];
-      function showAlert() {
-        alert("You clicked the Previous link!");
-        console.log("WithOut Module Booklist", BOOKLISTS);
-      }
-    </script>
-    <script type="module">
-      import { FetchData, ROOTAPIURL } from "./assets/js/utils.js";
-      const APIURL = `${ROOTAPIURL}/books`;
-      // const APIURL = "assets/js/books.json";
+      </div>`;
+      });
+      htmlContainer.innerHTML = htmlContent;
+    };
 
-      const htmlContainer = document.querySelector("#homepage .items");
+    // Initial Data Fetching Function
+    const loadBooks = async () => {
       try {
-        let data = await FetchData(APIURL);
-        BOOKLISTS.push(...data.results);
-        BOOKLISTS.forEach((item) => {
-          htmlContainer.innerHTML += `<div class="flip-card">
-                      <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                          <img
-                            src="${item?.formats["image/jpeg"]}"
-                            alt="Avatar"
-                          />
-                        </div>
-                        <div class="flip-card-back">
-                          <div class="wishlist_icon_flip">
-                            <svg
-                              width="32"
-                              height="33"
-                              viewBox="0 0 32 33"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
-                                stroke="#1A1A1A"
-                                stroke-width="1.5"
-                              />
-                            </svg>
-                          </div>
-                          <div class="content_flip">
-                            <h1>Name: ${item?.title}</h1>
-                            <br/>
-                            <p>Author : ${item?.authors[0]?.name}</p>
-                            <br/>
-                            <a href="details.html?id=${item?.id}" target="_blank">Read More</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>`;
-        });
+        htmlContainer.innerHTML = "LOADING...";
+        let fetchedData = await Fetching(APIURL);
+        DATA = fetchedData;
+        HtmlLayout(fetchedData.results);
+        // Pagination
+        previousBooksLink.disabled = DATA?.previous ? false : true;
+        nextBooksLink.disabled = DATA?.next ? false : true;
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching data:", error);
+        htmlContainer.innerHTML = "Failed to load data.";
       }
-    </script>
-  </body>
+    };
+    loadBooks();
+
+    // Get Previous Page Data
+    async function getPreviousData() {
+      if (DATA?.previous) {
+        let newHref = DATA?.previous;
+        try {
+          htmlContainer.innerHTML = "LOADING...";
+          let fetchedData = await Fetching(newHref);
+          DATA = fetchedData;
+          HtmlLayout(fetchedData.results);
+          // Pagination
+          previousBooksLink.disabled = DATA?.previous ? false : true;
+          nextBooksLink.disabled = DATA?.next ? false : true;
+        } catch (error) {
+          console.error("Error fetching next page data:", error);
+          htmlContainer.innerHTML = "Failed to load next page data.";
+        }
+      }
+    }
+    // Get Next Page Data
+    async function getNextData() {
+      if (DATA?.next) {
+        let newHref = DATA?.next;
+        try {
+          htmlContainer.innerHTML = "LOADING...";
+          let fetchedData = await Fetching(newHref);
+          DATA = fetchedData;
+          HtmlLayout(fetchedData.results);
+          // Pagination
+          previousBooksLink.disabled = DATA?.previous ? false : true;
+          nextBooksLink.disabled = DATA?.next ? false : true;
+        } catch (error) {
+          console.error("Error fetching next page data:", error);
+          htmlContainer.innerHTML = "Failed to load next page data.";
+        }
+      }
+    }
+  </script>
+</body>
+
 </html>
