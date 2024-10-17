@@ -35,7 +35,7 @@
               
             </div> -->
             <span id="wishlistIconGlobal">♡</span>
-            <div class="count">
+            <div class="count" id="wishlistCountGlobal">
               <p>0</p>
             </div>
           </div>
@@ -107,6 +107,16 @@
     </div>
   </div>
   <script>
+    // Global Wishlist 
+    let globalWishlist = () => {
+      const wishlistIconGlobal = document.getElementById("wishlistIconGlobal");
+      const wishlistCountGlobal = document.getElementById("wishlistCountGlobal");
+      let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'inherit';
+      wishlistCountGlobal.innerHTML = `0${currentWishlist.length || 0}`;
+    }
+    globalWishlist();
+    // .... 
     const APIURL = "https://gutendex.com/books/?page=1";
     const htmlContainer = document.querySelector("#homepage .items");
     const previousBooksLink = document.getElementById("getPreviousBooks");
@@ -209,6 +219,7 @@
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
       currentWishlist.push(book)
       localStorage.setItem('wishlist', JSON.stringify(currentWishlist));
+      globalWishlist()
     }
   </script>
 </body>
