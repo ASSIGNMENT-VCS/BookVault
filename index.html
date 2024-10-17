@@ -20,8 +20,8 @@
           <h2>BookVault</h2>
         </a>
         <div class="search">
-          <form action="/search" method="get">
-            <input type="text" name="q" placeholder="Enter your search query" />
+          <form>
+            <input type="text" id="searchQuery" placeholder="Enter your search query" onkeydown="checkEnter(event)" />
           </form>
         </div>
         <div class="icon">
@@ -225,6 +225,34 @@
       }
       localStorage.setItem('wishlist', JSON.stringify(currentWishlist));
       globalWishlist()
+    }
+
+    // Get Search Data
+    async function checkEnter(event) {
+      if (event.key === "Enter") {
+        event.preventDefault()
+        await getSearchData();
+      }
+    }
+    async function getSearchData() {
+      const searchQuery = document.getElementById('searchQuery').value;
+      console.log(searchQuery)
+      if (searchQuery) {
+        const searchURL = `https://gutendex.com/books/?search=${encodeURIComponent(searchQuery)}`;
+        console.log(searchURL)
+        try {
+          htmlContainer.innerHTML = "LOADING...";
+          let fetchedData = await Fetching(searchURL);
+          DATA = fetchedData;
+          HtmlLayout(fetchedData.results);
+          previousBooksLink.disabled = DATA?.previous ? false : true;
+          nextBooksLink.disabled = DATA?.next ? false : true;
+        } catch (error) {
+          console.error("Error fetching search data:", error);
+          htmlContainer.innerHTML = "Failed to load search results.";
+        }
+      }
+
     }
   </script>
 </body>
