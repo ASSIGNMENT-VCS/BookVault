@@ -134,8 +134,11 @@
 
     // HTML Layout Function
     const HtmlLayout = (data) => {
+      let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
       let htmlContent = '';
       data.forEach((item) => {
+        const isInWishlist = currentWishlist.some(book => book.id === item.id);
+        const iconColor = isInWishlist ? 'red' : 'inherit';
         htmlContent += `
       <div class="flip-card">
         <div class="flip-card-inner">
@@ -144,7 +147,8 @@
           </div>
           <div class="flip-card-back">
             <div class="wishlist_icon_flip" >
-                  <span id="wishlistIconSingle" onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })})'>♡</span>
+            <span id="wishlistIconSingle" style="color: ${iconColor};" 
+      onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
             </div>
             <div class="content_flip">
               <h1>Name: ${item?.title}</h1>
@@ -215,9 +219,18 @@
     }
 
     // Working With Wishlist Single Book
-    function toggleWishlist(book) {
+    function toggleWishlist(book, element) {
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      currentWishlist.push(book)
+      const bookIndex = currentWishlist.findIndex(item => item.id === book.id);
+      if (bookIndex === -1) {
+        currentWishlist.push(book);
+        element.style.color = 'red';
+        console.log(`Added "${book.title}" to wishlist`);
+      } else {
+        currentWishlist.splice(bookIndex, 1);
+        element.style.color = 'inherit';
+        console.log(`Removed "${book.title}" from wishlist`);
+      }
       localStorage.setItem('wishlist', JSON.stringify(currentWishlist));
       globalWishlist()
     }
