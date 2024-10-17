@@ -214,3 +214,16 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+.loadingAnimation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background-color: #f0f0f0;
+  z-index: 9999;
+}

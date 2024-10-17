@@ -159,7 +159,9 @@
     // Initial Data Fetching Function
     const loadBooks = async () => {
       try {
-        htmlContainer.innerHTML = "LOADING...";
+        htmlContainer.innerHTML = `<div class="loadingAnimation">
+          <img src="./assets/img/loading.gif" />
+          </div>`;
         let fetchedData = await Fetching(APIURL);
         DATA = fetchedData;
         HtmlLayout(fetchedData.results);
@@ -178,7 +180,9 @@
       if (DATA?.previous) {
         let newHref = DATA?.previous;
         try {
-          htmlContainer.innerHTML = "LOADING...";
+          htmlContainer.innerHTML = `<div class="loadingAnimation">
+          <img src="./assets/img/loading.gif" />
+          </div>`;
           let fetchedData = await Fetching(newHref);
           DATA = fetchedData;
           HtmlLayout(fetchedData.results);
@@ -196,7 +200,9 @@
       if (DATA?.next) {
         let newHref = DATA?.next;
         try {
-          htmlContainer.innerHTML = "LOADING...";
+          htmlContainer.innerHTML = `<div class="loadingAnimation">
+          <img src="./assets/img/loading.gif" />
+          </div>`;
           let fetchedData = await Fetching(newHref);
           DATA = fetchedData;
           HtmlLayout(fetchedData.results);
@@ -241,7 +247,9 @@
         const searchURL = `https://gutendex.com/books/?search=${encodeURIComponent(searchQuery)}`;
         console.log(searchURL)
         try {
-          htmlContainer.innerHTML = "LOADING...";
+          htmlContainer.innerHTML = `<div class="loadingAnimation">
+          <img src="./assets/img/loading.gif" />
+          </div>`;
           let fetchedData = await Fetching(searchURL);
           DATA = fetchedData;
           HtmlLayout(fetchedData.results);
