@@ -1,59 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
-    <!-- Favicon link -->
-    <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="./assets/css/reset.css" />
-    <link rel="stylesheet" href="./assets/css/style.css" />
-  </head>
 
-  <body>
-    <div class="container">
-      <div class="wrapper">
-        <!-- Header  -->
-        <header>
-          <a href="index.html" class="logo">
-            <h2>BookVault</h2>
-          </a>
-          <div class="search">
-            <form action="/search" method="get">
-              <input
-                type="text"
-                name="q"
-                placeholder="Enter your search query"
-              />
-            </form>
-          </div>
-          <div class="icon">
-            <div>
-              <div class="svgicon">
-                <svg
-                  width="32"
-                  height="33"
-                  viewBox="0 0 32 33"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
-                    stroke="#1A1A1A"
-                    stroke-width="1.5"
-                  />
-                </svg>
-              </div>
-              <div class="count">
-                <p>0</p>
-              </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
+  <!-- Favicon link -->
+  <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="./assets/css/reset.css" />
+  <link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <!-- Header  -->
+      <!-- Header  -->
+      <header>
+        <a href="index.html" class="logo">
+          <h2>BookVault</h2>
+        </a>
+        <div class="search">
+          <form action="/search" method="get">
+            <input type="text" name="q" placeholder="Enter your search query" />
+          </form>
+        </div>
+        <div class="icon">
+          <a href="wishlist.html">
+            <span id="wishlistIconGlobal">♡</span>
+            <div class="count" id="wishlistCountGlobal">
+              <p>0</p>
             </div>
-          </div>
-        </header>
-        <!-- Content  -->
-        <div class="content">
-          <div id="bookDetails">
-            <!-- <div class="bookimage">
+          </a>
+        </div>
+      </header>
+      <!-- Content  -->
+      <div class="content">
+        <div id="bookDetails">
+          <!-- <div class="bookimage">
               <img
                 src="https://www.gutenberg.org/cache/epub/84/pg84.cover.medium.jpg"
                 alt="Book Image"
@@ -71,24 +55,34 @@
               publishing software like Aldus PageMaker including versions of
               Lorem Ipsum.
             </div> -->
-          </div>
         </div>
-        <!-- Footer -->
-        <footer>
-          Feel free to drop a 'hello' @ <span>almahmudkhalif@gmail.com</span>
-        </footer>
       </div>
+      <!-- Footer -->
+      <footer>
+        Feel free to drop a 'hello' @ <span>almahmudkhalif@gmail.com</span>
+      </footer>
     </div>
-    <!-- <script src="./assets/js/script.js"></script> -->
-    <script type="module">
-      import { FetchData, ROOTAPIURL } from "./assets/js/utils.js";
-      const params = new URLSearchParams(window.location.search);
-      const bookId = params.get("id");
-      const APIURL = `${ROOTAPIURL}/books/${bookId}`;
-      const htmlContainer = document.querySelector("#bookDetails");
-      try {
-        let item = await FetchData(APIURL);
-        htmlContainer.innerHTML += `
+  </div>
+  <script>
+    // Global Wishlist 
+    let globalWishlist = () => {
+      const wishlistIconGlobal = document.getElementById("wishlistIconGlobal");
+      const wishlistCountGlobal = document.getElementById("wishlistCountGlobal");
+      let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+      wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'inherit';
+      wishlistCountGlobal.innerHTML = `${currentWishlist.length || 0}`;
+    }
+    globalWishlist();
+  </script>
+  <script type="module">
+    import { FetchData, ROOTAPIURL } from "./assets/js/utils.js";
+    const params = new URLSearchParams(window.location.search);
+    const bookId = params.get("id");
+    const APIURL = `${ROOTAPIURL}/books/${bookId}`;
+    const htmlContainer = document.querySelector("#bookDetails");
+    try {
+      let item = await FetchData(APIURL);
+      htmlContainer.innerHTML += `
       <div class="bookimage">
                     <img
                      src="${item?.formats["image/jpeg"]}"
@@ -103,9 +97,10 @@
                   </div>
 
             `;
-      } catch (error) {
-        console.log(error);
-      }
-    </script>
-  </body>
+    } catch (error) {
+      console.log(error);
+    }
+  </script>
+</body>
+
 </html>

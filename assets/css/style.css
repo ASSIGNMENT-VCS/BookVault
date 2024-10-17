@@ -40,18 +40,18 @@
 .container .wrapper header .icon {
   justify-items: end;
 }
-.container .wrapper header .icon div {
+.container .wrapper header .icon a {
   grid-area: icon;
   position: relative;
-  cursor: pointer;
+  text-decoration: none;
   display: flex;
   justify-content: flex-end;
 }
-.container .wrapper header .icon div #wishlistIconGlobal {
+.container .wrapper header .icon a #wishlistIconGlobal {
   font-size: 45px;
   margin-right: 6px;
 }
-.container .wrapper header .icon div .count {
+.container .wrapper header .icon a .count {
   position: absolute;
   top: -3px;
   height: 20px;

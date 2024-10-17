@@ -25,20 +25,12 @@
           </form>
         </div>
         <div class="icon">
-          <div>
-            <!-- <div class="svgicon">
-              <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
-                  stroke="#1A1A1A" stroke-width="1.5" />
-              </svg>
-              
-            </div> -->
+          <a href="wishlist.html">
             <span id="wishlistIconGlobal">♡</span>
             <div class="count" id="wishlistCountGlobal">
               <p>0</p>
             </div>
-          </div>
+          </a>
         </div>
       </header>
       <!-- Content  -->
@@ -113,7 +105,7 @@
       const wishlistCountGlobal = document.getElementById("wishlistCountGlobal");
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
       wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'inherit';
-      wishlistCountGlobal.innerHTML = `0${currentWishlist.length || 0}`;
+      wishlistCountGlobal.innerHTML = `${currentWishlist.length || 0}`;
     }
     globalWishlist();
     // .... 
@@ -155,7 +147,7 @@
               <br/>
               <p>Author: ${item?.authors[0]?.name}</p>
               <br/>
-              <a href="details.html?id=${item?.id}" target="_blank">Read More</a>
+              <a href="details.html?id=${item?.id}">Read More</a>
             </div>
           </div>
         </div>

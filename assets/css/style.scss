@@ -41,10 +41,10 @@
       }
       .icon {
         justify-items: end;
-        div {
+        a {
           grid-area: icon;
           position: relative;
-          cursor: pointer;
+          text-decoration: none;
           display: flex;
           justify-content: flex-end;
           #wishlistIconGlobal {
