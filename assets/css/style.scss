@@ -47,10 +47,13 @@
           cursor: pointer;
           display: flex;
           justify-content: flex-end;
+          #wishlistIconGlobal {
+            font-size: 45px;
+            margin-right: 6px;
+          }
           .count {
             position: absolute;
-            top: -5px;
-            right: 20px;
+            top: -3px;
             height: 20px;
             width: 20px;
             background-color: black;
@@ -139,6 +142,9 @@
                   top: 0;
                   right: 15px;
                   cursor: pointer;
+                  #wishlistIconSingle {
+                    font-size: 50px;
+                  }
                 }
               }
             }
