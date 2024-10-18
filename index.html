@@ -20,7 +20,15 @@
           <h2>BookVault</h2>
         </a>
         <div class="search">
-          <input type="text" id="searchQuery" placeholder="Enter your search query" onkeydown="checkEnter(event)" />
+          <!-- onkeydown="checkEnter(event)" -->
+          <input type="text" id="searchQuery" placeholder="Enter your search query" />
+          <div id="liveSearch">
+            <ul>
+              <li>
+                Book Name: Def
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="icon">
           <a href="wishlist.html">
@@ -142,23 +150,62 @@
     const getPreviousData = () => loadBooks(DATA?.previous);
 
     // Search Function
-    const checkEnter = (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-        applySearch();
-      }
+    // const checkEnter = (event) => {
+    //   if (event.key === 'Enter') {
+    //     event.preventDefault();
+    //     applySearch();
+    //   }
+    // };
+
+    // const applySearch = async () => {
+    //   const query = document.getElementById("searchQuery").value.trim();
+    //   console.log(query);
+    //   if (query) {
+    //     const searchURL = `https://gutendex.com/books?search=${query}`;
+    //     await loadBooks(searchURL);
+    //   } else {
+    //     await loadBooks(APIURL);
+    //   }
+    // };
+    // HTML Layout Function
+    const searchContainer = document.querySelector("#liveSearch ul");
+    const searchItems = (data) => {
+      let currentContent = '';
+      data.forEach((item) => {
+        // const isInWishlist = currentWishlist.some(book => book.id === item.id);
+        // const iconColor = isInWishlist ? 'red' : 'inherit';
+        currentContent += `
+              <li>
+                <p>Image: ${item?.formats["image/jpeg"] || './assets/img/missingbook.webp'}</p>
+                <p>Title: ${item?.title}</p>
+                <p>Author: ${item?.authors[0]?.name}</p>
+                <p>Genre: ${item?.subjects[0] || 'Unknown'}</p>
+                <p>Id: ${item?.id} || 'Unknown'}</p>
+              </li>
+        `
+          ;
+      });
+      searchContainer.innerHTML = currentContent;
     };
 
-    const applySearch = async () => {
-      const query = document.getElementById("searchQuery").value.trim();
-      console.log(query);
-      if (query) {
-        const searchURL = `https://gutendex.com/books?search=${query}`;
-        await loadBooks(searchURL);
+    // ==== 
+    const searchQuery = document.getElementById("searchQuery");
+    searchQuery.addEventListener("input", async function () {
+      const query = searchQuery.value.trim();
+      if (query.length > 0) {
+        console.log("Start searching: " + query);
+        searchContainer.innerHTML = "Loading ...";
+        const searchURL = `https://gutendex.com/books?search=${query}`
+        let response = await fetch(searchURL);
+        let searchData = await response.json();
+        searchItems(searchData?.results);
+        // await loadBooks(searchURL)
+        // Show liveSearch div or perform search logic
       } else {
-        await loadBooks(APIURL);
+        console.log("Search query is empty");
+        searchContainer.innerHTML = "No Data Fount Because Query Empty";
       }
-    };
+    });
 
     // Genre Filter Function
     const applyFilter = async () => {
