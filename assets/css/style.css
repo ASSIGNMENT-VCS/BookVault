@@ -39,12 +39,16 @@
   border: 1px solid black;
 }
 .container .wrapper header .search #liveSearch {
+  display: none;
   position: absolute;
   background-color: white;
   z-index: 999;
   padding: 5px;
   border: 1px solid #ccc;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow: auto;
+  width: 97%;
 }
 .container .wrapper header .icon {
   justify-items: end;

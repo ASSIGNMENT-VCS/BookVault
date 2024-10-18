@@ -20,13 +20,10 @@
           <h2>BookVault</h2>
         </a>
         <div class="search">
-          <!-- onkeydown="checkEnter(event)" -->
           <input type="text" id="searchQuery" placeholder="Enter your search query" />
           <div id="liveSearch">
             <ul>
-              <li>
-                Book Name: Def
-              </li>
+              <!-- Search Item Will Be Show Here  -->
             </ul>
           </div>
         </div>
@@ -168,6 +165,7 @@
     //   }
     // };
     // HTML Layout Function
+    const searchMainContainer = document.querySelector("#liveSearch");
     const searchContainer = document.querySelector("#liveSearch ul");
     const searchItems = (data) => {
       let currentContent = '';
@@ -193,16 +191,16 @@
     searchQuery.addEventListener("input", async function () {
       const query = searchQuery.value.trim();
       if (query.length > 0) {
+        searchMainContainer.style.display = "block";
         console.log("Start searching: " + query);
         searchContainer.innerHTML = "Loading ...";
         const searchURL = `https://gutendex.com/books?search=${query}`
         let response = await fetch(searchURL);
         let searchData = await response.json();
         searchItems(searchData?.results);
-        // await loadBooks(searchURL)
-        // Show liveSearch div or perform search logic
       } else {
         console.log("Search query is empty");
+        searchMainContainer.style.display = "none";
         searchContainer.innerHTML = "No Data Fount Because Query Empty";
       }
     });
