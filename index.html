@@ -20,9 +20,7 @@
           <h2>BookVault</h2>
         </a>
         <div class="search">
-          <form>
-            <input type="text" id="searchQuery" placeholder="Enter your search query" onkeydown="checkEnter(event)" />
-          </form>
+          <input type="text" id="searchQuery" placeholder="Enter your search query" onkeydown="checkEnter(event)" />
         </div>
         <div class="icon">
           <a href="wishlist.html">
@@ -37,58 +35,18 @@
       <div class="content">
         <div id="homepage">
           <div class="total_item__filter">
-            <p>Showing 1–16 of 52 results</p>
-            <select name="cars" id="cars">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="audi">Audi</option>
+            <p id="totalBooks">Showing 0 books</p>
+            <select id="genreFilter" onchange="applyFilter()">
+              <option value="">All Genres</option>
+              <option value="Science fiction">Science Fiction</option>
+              <option value="Gothic fiction">Gothic Fiction</option>
+              <option value="Political science">Political Science</option>
             </select>
           </div>
-          <div class="items">
-            <!-- Book  -->
-            <!-- <div class="flip-card">
-                <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                    <img
-                      src="https://www.gutenberg.org/cache/epub/84/pg84.cover.medium.jpg"
-                      alt="Avatar"
-                      style="width: auto; height: 100%"
-                    />
-                  </div>
-                  <div class="flip-card-back">
-                    <div class="wishlist_icon_flip">
-                      <svg
-                        width="32"
-                        height="33"
-                        viewBox="0 0 32 33"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M15.9995 28.5722C-10.6667 13.8333 7.99999 -2.16666 15.9995 7.95075C24 -2.16666 42.6666 13.8333 15.9995 28.5722Z"
-                          stroke="#1A1A1A"
-                          stroke-width="1.5"
-                        />
-                      </svg>
-                    </div>
-                    <div class="content_flip">
-                      <h1>John Doe</h1>
-                      <p>Architect & Engineer</p>
-                      <p>We love that guy</p>
-                      <a href="details.html">Read More</a>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-          </div>
+          <div class="items"></div>
           <div class="pagination">
             <button type="button" id="getPreviousBooks" onclick="getPreviousData()" disabled>&laquo; Previous</button>
-            <!-- <a href="#" id="getPreviousBooks" onclick="getPreviousData()">
-              &laquo; Previous
-            </a> -->
             <button type="button" id="getNextBooks" onclick="getNextData()" disabled>Next &raquo;</button>
-            <!-- <a href="#" id="getNextBooks" onclick="getNextData()">Next &raquo;</a> -->
           </div>
         </div>
       </div>
@@ -98,8 +56,9 @@
       </footer>
     </div>
   </div>
+
   <script>
-    // Global Wishlist 
+    // Global Wishlist
     let globalWishlist = () => {
       const wishlistIconGlobal = document.getElementById("wishlistIconGlobal");
       const wishlistCountGlobal = document.getElementById("wishlistCountGlobal");
@@ -107,162 +66,117 @@
       wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'inherit';
       wishlistCountGlobal.innerHTML = `${currentWishlist.length || 0}`;
     }
-    globalWishlist();
-    // .... 
-    const APIURL = "https://gutendex.com/books/?page=1";
-    const htmlContainer = document.querySelector("#homepage .items");
-    const previousBooksLink = document.getElementById("getPreviousBooks");
-    const nextBooksLink = document.getElementById("getNextBooks");
 
+    const APIURL = "https://gutendex.com/books/?page=1";
+    const booksContainer = document.querySelector("#homepage .items");
+    const previousButton = document.getElementById("getPreviousBooks");
+    const nextButton = document.getElementById("getNextBooks");
+    const totalBooks = document.getElementById("totalBooks");
     let DATA = [];
 
-    // Common Functions
-    // Fetch Data
-    const Fetching = async (url) => {
-      let response = await fetch(url);
-      let data = await response.json();
-      return data;
-    };
-
     // HTML Layout Function
-    const HtmlLayout = (data) => {
+    const bookItemsLayout = (data) => {
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      let htmlContent = '';
+      let currentContent = '';
       data.forEach((item) => {
         const isInWishlist = currentWishlist.some(book => book.id === item.id);
         const iconColor = isInWishlist ? 'red' : 'inherit';
-        htmlContent += `
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img src="${item?.formats["image/jpeg"]}" alt="Avatar" />
-          </div>
-          <div class="flip-card-back">
-            <div class="wishlist_icon_flip" >
-            <span id="wishlistIconSingle" style="color: ${iconColor};" 
-      onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
+        currentContent += `
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img src="${item?.formats["image/jpeg"] || './assets/img/missingbook.webp'}" alt="${item?.title}" />
             </div>
-            <div class="content_flip">
-              <h1>Name: ${item?.title}</h1>
-              <br/>
-              <p>Author: ${item?.authors[0]?.name}</p>
-              <br/>
-              <a href="details.html?id=${item?.id}">Read More</a>
+            <div class="flip-card-back">
+              <div class="wishlist_icon_flip">
+                <span id="wishlistIconSingle" style="color: ${iconColor};" 
+                onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
+              </div>
+              <div class="content_flip">
+                <h1>${item?.title}</h1>
+                <p>Author: ${item?.authors[0]?.name}</p>
+                <p>Genre: ${item?.subjects[0] || 'Unknown'}</p>
+                <a href="details.html?id=${item?.id}">Read More</a>
+              </div>
             </div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
       });
-      htmlContainer.innerHTML = htmlContent;
+      booksContainer.innerHTML = currentContent;
     };
 
     // Initial Data Fetching Function
-    const loadBooks = async () => {
+    const loadBooks = async (url) => {
       try {
-        htmlContainer.innerHTML = `<div class="loadingAnimation">
-          <img src="./assets/img/loading.gif" />
-          </div>`;
-        let fetchedData = await Fetching(APIURL);
-        DATA = fetchedData;
-        HtmlLayout(fetchedData.results);
-        // Pagination
-        previousBooksLink.disabled = DATA?.previous ? false : true;
-        nextBooksLink.disabled = DATA?.next ? false : true;
+        booksContainer.innerHTML = `<div class="loadingAnimation"><img src="./assets/img/loading.gif" /></div>`;
+        let response = await fetch(url);
+        DATA = await response.json();
+        bookItemsLayout(DATA?.results);
+        totalBooks.innerHTML = `Showing ${DATA.count} books`;
+        // Pagination controls
+        previousButton.disabled = !DATA.previous;
+        nextButton.disabled = !DATA.next;
       } catch (error) {
         console.error("Error fetching data:", error);
-        htmlContainer.innerHTML = "Failed to load data.";
+        booksContainer.innerHTML = "Failed to load data.";
       }
     };
-    loadBooks();
 
-    // Get Previous Page Data
-    async function getPreviousData() {
-      if (DATA?.previous) {
-        let newHref = DATA?.previous;
-        try {
-          htmlContainer.innerHTML = `<div class="loadingAnimation">
-          <img src="./assets/img/loading.gif" />
-          </div>`;
-          let fetchedData = await Fetching(newHref);
-          DATA = fetchedData;
-          HtmlLayout(fetchedData.results);
-          // Pagination
-          previousBooksLink.disabled = DATA?.previous ? false : true;
-          nextBooksLink.disabled = DATA?.next ? false : true;
-        } catch (error) {
-          console.error("Error fetching next page data:", error);
-          htmlContainer.innerHTML = "Failed to load next page data.";
-        }
-      }
-    }
-    // Get Next Page Data
-    async function getNextData() {
-      if (DATA?.next) {
-        let newHref = DATA?.next;
-        try {
-          htmlContainer.innerHTML = `<div class="loadingAnimation">
-          <img src="./assets/img/loading.gif" />
-          </div>`;
-          let fetchedData = await Fetching(newHref);
-          DATA = fetchedData;
-          HtmlLayout(fetchedData.results);
-          // Pagination
-          previousBooksLink.disabled = DATA?.previous ? false : true;
-          nextBooksLink.disabled = DATA?.next ? false : true;
-        } catch (error) {
-          console.error("Error fetching next page data:", error);
-          htmlContainer.innerHTML = "Failed to load next page data.";
-        }
-      }
-    }
-
-    // Working With Wishlist Single Book
-    function toggleWishlist(book, element) {
+    // Wishlist Toggle
+    const toggleWishlist = (book, element) => {
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      const bookIndex = currentWishlist.findIndex(item => item.id === book.id);
-      if (bookIndex === -1) {
+      const isInWishlist = currentWishlist.some(item => item.id === book.id);
+      if (isInWishlist) {
+        currentWishlist = currentWishlist.filter(item => item.id !== book.id);
+        element.style.color = 'inherit';
+      } else {
         currentWishlist.push(book);
         element.style.color = 'red';
-        console.log(`Added "${book.title}" to wishlist`);
-      } else {
-        currentWishlist.splice(bookIndex, 1);
-        element.style.color = 'inherit';
-        console.log(`Removed "${book.title}" from wishlist`);
       }
       localStorage.setItem('wishlist', JSON.stringify(currentWishlist));
-      globalWishlist()
-    }
+      globalWishlist();
+    };
 
-    // Get Search Data
-    async function checkEnter(event) {
-      if (event.key === "Enter") {
-        event.preventDefault()
-        await getSearchData();
-      }
-    }
-    async function getSearchData() {
-      const searchQuery = document.getElementById('searchQuery').value;
-      console.log(searchQuery)
-      if (searchQuery) {
-        const searchURL = `https://gutendex.com/books/?search=${encodeURIComponent(searchQuery)}`;
-        console.log(searchURL)
-        try {
-          htmlContainer.innerHTML = `<div class="loadingAnimation">
-          <img src="./assets/img/loading.gif" />
-          </div>`;
-          let fetchedData = await Fetching(searchURL);
-          DATA = fetchedData;
-          HtmlLayout(fetchedData.results);
-          previousBooksLink.disabled = DATA?.previous ? false : true;
-          nextBooksLink.disabled = DATA?.next ? false : true;
-        } catch (error) {
-          console.error("Error fetching search data:", error);
-          htmlContainer.innerHTML = "Failed to load search results.";
-        }
-      }
+    // Get Next and Previous Page Data
+    const getNextData = () => loadBooks(DATA?.next);
+    const getPreviousData = () => loadBooks(DATA?.previous);
 
-    }
+    // Search Function
+    const checkEnter = (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        applySearch();
+      }
+    };
+
+    const applySearch = async () => {
+      const query = document.getElementById("searchQuery").value.trim();
+      console.log(query);
+      if (query) {
+        const searchURL = `https://gutendex.com/books?search=${query}`;
+        await loadBooks(searchURL);
+      } else {
+        await loadBooks(APIURL);
+      }
+    };
+
+    // Genre Filter Function
+    const applyFilter = async () => {
+      const genre = document.getElementById("genreFilter").value;
+      console.log(genre);
+      if (genre) {
+        const filterURL = `https://gutendex.com/books?topic=${genre}`;
+        await loadBooks(filterURL);
+      } else {
+        await loadBooks(APIURL);
+      }
+    };
+
+    // Initial Load
+    globalWishlist();
+    loadBooks(APIURL);
   </script>
+
 </body>
 
 </html>

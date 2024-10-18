@@ -26,14 +26,14 @@
 .container .wrapper header .search {
   grid-area: search;
 }
-.container .wrapper header .search form input {
+.container .wrapper header .search input {
   height: 35px;
   width: -webkit-fill-available;
   border-radius: 5px;
   border: 1px solid #e5e7eb;
   padding: 0 10px;
 }
-.container .wrapper header .search form input:focus {
+.container .wrapper header .search input:focus {
   outline: none;
   border: 1px solid black;
 }
@@ -121,6 +121,12 @@
 .container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-front {
   background-color: transparent;
   color: black;
+}
+.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-front img {
+  width: 200px;
+  height: 300px;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back {
   background-color: white;

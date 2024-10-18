@@ -25,17 +25,15 @@
       }
       .search {
         grid-area: search;
-        form {
-          input {
-            height: 35px;
-            width: -webkit-fill-available;
-            border-radius: 5px;
-            border: 1px solid #e5e7eb;
-            padding: 0 10px;
-            &:focus {
-              outline: none;
-              border: 1px solid black;
-            }
+        input {
+          height: 35px;
+          width: -webkit-fill-available;
+          border-radius: 5px;
+          border: 1px solid #e5e7eb;
+          padding: 0 10px;
+          &:focus {
+            outline: none;
+            border: 1px solid black;
           }
         }
       }
@@ -128,6 +126,11 @@
               .flip-card-front {
                 background-color: transparent;
                 color: black;
+                img {
+                  width: 200px;
+                  height: 300px;
+                  object-fit: contain;
+                }
               }
 
               .flip-card-back {
@@ -157,6 +160,7 @@
           }
         }
       }
+
       #bookDetails {
         .bookimage {
           text-align: center;
