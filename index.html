@@ -16,11 +16,14 @@
     <div class="wrapper">
       <!-- Header  -->
       <header>
-        <a href="index.html" class="logo">
-          <h2>BookVault</h2>
-        </a>
+        <h2>
+          <a href="index.html">
+            <span style="color: #2162AF;">Book</span><span style="color: #662D91;">Vault</span>
+          </a>
+        </h2>
         <div class="search">
-          <input type="text" id="searchQuery" placeholder="Enter your search query" />
+          <input type="text" id="searchQuery" onkeyup="searchQueryData()" ondblclick="searchQueryData()"
+            placeholder="Find your next favorite book..." />
           <div id="liveSearch">
             <ul>
               <!-- Search Item Will Be Show Here  -->
@@ -48,7 +51,18 @@
               <option value="Political science">Political Science</option>
             </select>
           </div>
-          <div class="items"></div>
+          <div class="items">
+
+            <!-- <div class="item">
+  <div class="image">
+    <img src="./assets/img/missingbook.webp" alt="Image Title">
+    <span id="wishlistIconSingle">♡</span>
+  </div>
+  <div class="info">
+    abc
+  </div>
+</div> -->
+          </div>
           <div class="pagination">
             <button type="button" id="getPreviousBooks" onclick="getPreviousData()" disabled>&laquo; Previous</button>
             <button type="button" id="getNextBooks" onclick="getNextData()" disabled>Next &raquo;</button>
@@ -68,7 +82,7 @@
       const wishlistIconGlobal = document.getElementById("wishlistIconGlobal");
       const wishlistCountGlobal = document.getElementById("wishlistCountGlobal");
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'inherit';
+      wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'gray';
       wishlistCountGlobal.innerHTML = `${currentWishlist.length || 0}`;
     }
 
@@ -87,25 +101,26 @@
         const isInWishlist = currentWishlist.some(book => book.id === item.id);
         const iconColor = isInWishlist ? 'red' : 'inherit';
         currentContent += `
-        <div class="flip-card">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img src="${item?.formats["image/jpeg"] || './assets/img/missingbook.webp'}" alt="${item?.title}" />
-            </div>
-            <div class="flip-card-back">
-              <div class="wishlist_icon_flip">
-                <span id="wishlistIconSingle" style="color: ${iconColor};" 
-                onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
+
+
+
+        <div class="item">
+              <div class="image">
+                <img src="${item?.formats["image/jpeg"] || './assets/img/missingbook.webp'}" alt="${item?.title}" />
+               <span id="wishlistIconSingle" style="color: ${iconColor};"
+          onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
+                </div> 
+              <div class="info">
+                <div> <span> Title : </span> ${item?.title || 'Unknown'}</div>
+                <div> <span> ID : </span> ${item?.id || 'Unknown'}</div>
+                <div> <span> Author : </span> ${item?.authors[0]?.name || 'Unknown'}</div>
+                <div> <span> Genre : </span> ${item?.subjects[0] || 'Unknown'}</div>
               </div>
-              <div class="content_flip">
-                <h1>${item?.title}</h1>
-                <p>Author: ${item?.authors[0]?.name}</p>
-                <p>Genre: ${item?.subjects[0] || 'Unknown'}</p>
+              <div class="readMore">
                 <a href="details.html?id=${item?.id}">Read More</a>
-              </div>
+                </div>
             </div>
-          </div>
-        </div>`;
+        `;
       });
       booksContainer.innerHTML = currentContent;
     };
@@ -187,8 +202,25 @@
     };
 
     // ==== 
-    const searchQuery = document.getElementById("searchQuery");
-    searchQuery.addEventListener("input", async function () {
+    // const searchQuery = document.getElementById("searchQuery");
+    // searchQuery.addEventListener("input", async function () {
+    //   const query = searchQuery.value.trim();
+    //   if (query.length > 0) {
+    //     searchMainContainer.style.display = "block";
+    //     console.log("Start searching: " + query);
+    //     searchContainer.innerHTML = "Loading ...";
+    //     const searchURL = `https://gutendex.com/books?search=${query}`
+    //     let response = await fetch(searchURL);
+    //     let searchData = await response.json();
+    //     searchItems(searchData?.results);
+    //   } else {
+    //     console.log("Search query is empty");
+    //     searchMainContainer.style.display = "none";
+    //     searchContainer.innerHTML = "No Data Fount Because Query Empty";
+    //   }
+    // });
+
+    async function searchQueryData() {
       const query = searchQuery.value.trim();
       if (query.length > 0) {
         searchMainContainer.style.display = "block";
@@ -203,7 +235,7 @@
         searchMainContainer.style.display = "none";
         searchContainer.innerHTML = "No Data Fount Because Query Empty";
       }
-    });
+    }
 
     // Genre Filter Function
     const applyFilter = async () => {
@@ -223,10 +255,30 @@
 
     // == 
     document.addEventListener("click", (e) => {
-      e.target != searchMainContainer ? searchMainContainer.style.display = "none" : "block"
+      (e.target != searchMainContainer) ? searchMainContainer.style.display = "none" : "block"
     })
   </script>
 
 </body>
 
 </html>
+
+<!-- <div class="flip-card">
+  <div class="flip-card-inner">
+    <div class="flip-card-front">
+      <img src="${item?.formats[" image/jpeg"] || './assets/img/missingbook.webp' }" alt="${item?.title}" />
+    </div>
+    <div class="flip-card-back">
+      <div class="wishlist_icon_flip">
+        <span id="wishlistIconSingle" style="color: ${iconColor};"
+          onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
+      </div>
+      <div class="content_flip">
+        <h1>${item?.title}</h1>
+        <p>Author: ${item?.authors[0]?.name}</p>
+        <p>Genre: ${item?.subjects[0] || 'Unknown'}</p>
+        <a href="details.html?id=${item?.id}">Read More</a>
+      </div>
+    </div>
+  </div>
+</div> -->

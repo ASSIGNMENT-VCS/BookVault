@@ -11,32 +11,33 @@
 .container .wrapper header {
   display: grid;
   grid-template: "logo icon" "search search";
-  padding: 20px 0;
+  padding: 25px 0;
   row-gap: 10px;
   border-bottom: 1px solid #e5e7eb;
+  align-items: center;
 }
-.container .wrapper header .logo {
+.container .wrapper header h2 {
+  text-transform: uppercase;
+  font-size: 30px;
+}
+.container .wrapper header h2 a {
   grid-area: logo;
   text-decoration: none;
   color: inherit;
-}
-.container .wrapper header .logo h2 {
-  font-size: 30px;
 }
 .container .wrapper header .search {
   grid-area: search;
   position: relative;
 }
 .container .wrapper header .search input {
-  height: 35px;
+  height: 50px;
   width: -webkit-fill-available;
-  border-radius: 5px;
   border: 1px solid #e5e7eb;
   padding: 0 10px;
 }
 .container .wrapper header .search input:focus {
   outline: none;
-  border: 1px solid black;
+  border: 1px solid #662d91;
 }
 .container .wrapper header .search #liveSearch {
   display: none;
@@ -48,7 +49,8 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   max-height: 300px;
   overflow: auto;
-  width: 97%;
+  width: 96%;
+  margin-top: 2px;
 }
 .container .wrapper header .icon {
   justify-items: end;
@@ -61,21 +63,21 @@
   justify-content: flex-end;
 }
 .container .wrapper header .icon a #wishlistIconGlobal {
+  transform: scale(0.6, 0.5);
   font-size: 45px;
-  margin-right: 6px;
+  color: gray;
 }
 .container .wrapper header .icon a .count {
   position: absolute;
-  top: -3px;
   height: 20px;
   width: 20px;
-  background-color: black;
+  background-color: #662d91;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  font-size: 12px;
+  font-size: 11px;
 }
 .container .wrapper .content {
   flex: 1;
@@ -95,68 +97,63 @@
   border-bottom: 1px solid black;
 }
 .container .wrapper .content #homepage .items {
-  margin: 25px 0;
+  margin: 50px 0;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 25px;
 }
-.container .wrapper .content #homepage .items .flip-card {
-  background-color: transparent;
+.container .wrapper .content #homepage .items .item {
+  border-radius: 10px;
+  background-color: #f5f5f5;
   width: 100%;
-  height: 300px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
   border: 1px solid #e5e7eb;
-  border-radius: 5px;
-  perspective: 1000px;
-  padding: 20px 0;
 }
-.container .wrapper .content #homepage .items .flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
+.container .wrapper .content #homepage .items .item:hover {
+  border-radius: 10px;
+  border: 1px solid #cbd2d9;
 }
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.container .wrapper .content #homepage .items .item:hover .info {
+  border-top: 1px solid #cbd2d9;
+}
+.container .wrapper .content #homepage .items .item .image {
   text-align: center;
-  transition: transform 1.2s;
-  transform-style: preserve-3d;
-  -webkit-transition: transform 1.2s;
-  -moz-transition: transform 1.2s;
-  -ms-transition: transform 1.2s;
-  -o-transition: transform 1.2s;
-}
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-front,
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back {
-  position: absolute;
-  width: 100%;
   height: 300px;
-  backface-visibility: hidden;
-}
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-front {
-  background-color: transparent;
-  color: black;
-}
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-front img {
-  width: 200px;
-  height: 300px;
-  -o-object-fit: contain;
-     object-fit: contain;
-}
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back {
-  background-color: white;
-  color: black;
-  transform: rotateY(180deg);
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back .wishlist_icon_flip {
+.container .wrapper .content #homepage .items .item .image img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: none;
+     object-fit: none;
+}
+.container .wrapper .content #homepage .items .item .image #wishlistIconSingle {
+  transform: scale(0.6, 0.5);
+  font-size: 45px;
+  color: gray;
   position: absolute;
   top: 0;
-  right: 15px;
+  right: 0;
   cursor: pointer;
 }
-.container .wrapper .content #homepage .items .flip-card .flip-card-inner .flip-card-back .wishlist_icon_flip #wishlistIconSingle {
-  font-size: 50px;
+.container .wrapper .content #homepage .items .item .info {
+  margin: 10px 15px;
+  border-top: 1px solid #e5e7eb;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.container .wrapper .content #homepage .items .item .info div {
+  line-height: 20px;
+}
+.container .wrapper .content #homepage .items .item .info div span {
+  font-weight: bold;
 }
 .container .wrapper .content #homepage .pagination {
   text-align: center;
@@ -189,7 +186,7 @@
   margin: 0 10px;
 }
 .container .wrapper footer {
-  padding: 20px 0;
+  padding: 35px 0;
   border-top: 1px solid #e5e7eb;
   text-align: center;
 }
@@ -228,9 +225,6 @@
   }
   .container .wrapper header {
     grid-template: "logo search icon";
-  }
-  .container .wrapper .content #homepage .items {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
 .loadingAnimation {
