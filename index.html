@@ -220,6 +220,11 @@
     // Initial Load
     globalWishlist();
     loadBooks(APIURL);
+
+    // == 
+    document.addEventListener("click", (e) => {
+      e.target != searchMainContainer ? searchMainContainer.style.display = "none" : "block"
+    })
   </script>
 
 </body>
