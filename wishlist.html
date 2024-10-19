@@ -16,13 +16,19 @@
     <div class="wrapper">
       <!-- Header  -->
       <header>
-        <a href="index.html" class="logo">
-          <h2>BookVault</h2>
-        </a>
+        <h2>
+          <a href="index.html">
+            <span style="color: #2162AF;">Book</span><span style="color: #662D91;">Vault</span>
+          </a>
+        </h2>
         <div class="search">
-          <form action="/search" method="get">
-            <input type="text" name="q" placeholder="Enter your search query" />
-          </form>
+          <input type="text" id="searchQuery" onkeyup="searchQueryData()" ondblclick="searchQueryData()"
+            placeholder="Find your next favorite book..." />
+          <div id="liveSearch">
+            <ul>
+              <!-- Search Item Will Be Show Here  -->
+            </ul>
+          </div>
         </div>
         <div class="icon">
           <a href="wishlist.html">
@@ -51,7 +57,7 @@
       </div>
       <!-- Footer -->
       <footer>
-        Feel free to drop a 'hello' @ <span>almahmudkhalif@gmail.com</span>
+        Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
       </footer>
     </div>
   </div>
@@ -77,7 +83,8 @@
             <h1>${book.title}</h1>
           </div>
           <div class="wish_book_remove">
-            <button onclick="removeFromWishlist(${book.id})">Remove</button>
+            <button onclick="removeFromWishlist(${book.id})">❌</button>
+            
           </div>
         </div>`;
         });
@@ -101,6 +108,7 @@
     }
 
   </script>
+  <script src="./assets/js/common.js"></script>
 </body>
 
 </html>

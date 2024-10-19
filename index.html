@@ -71,21 +71,12 @@
       </div>
       <!-- Footer -->
       <footer>
-        Feel free to drop a 'hello' @ <span>almahmudkhalif@gmail.com</span>
+        Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
       </footer>
     </div>
   </div>
-
+  <script src="./assets/js/common.js"></script>
   <script>
-    // Global Wishlist
-    let globalWishlist = () => {
-      const wishlistIconGlobal = document.getElementById("wishlistIconGlobal");
-      const wishlistCountGlobal = document.getElementById("wishlistCountGlobal");
-      let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'gray';
-      wishlistCountGlobal.innerHTML = `${currentWishlist.length || 0}`;
-    }
-
     const APIURL = "https://gutendex.com/books/?page=1";
     const booksContainer = document.querySelector("#homepage .items");
     const previousButton = document.getElementById("getPreviousBooks");
@@ -101,9 +92,6 @@
         const isInWishlist = currentWishlist.some(book => book.id === item.id);
         const iconColor = isInWishlist ? 'red' : 'inherit';
         currentContent += `
-
-
-
         <div class="item">
               <div class="image">
                 <img src="${item?.formats["image/jpeg"] || './assets/img/missingbook.webp'}" alt="${item?.title}" />
@@ -115,10 +103,9 @@
                 <div> <span> ID : </span> ${item?.id || 'Unknown'}</div>
                 <div> <span> Author : </span> ${item?.authors[0]?.name || 'Unknown'}</div>
                 <div> <span> Genre : </span> ${item?.subjects[0] || 'Unknown'}</div>
+                
               </div>
-              <div class="readMore">
-                <a href="details.html?id=${item?.id}">Read More</a>
-                </div>
+              <div class="readMore"><a href="details.html?id=${item?.id}">Read More ...</a></div>
             </div>
         `;
       });
@@ -142,6 +129,8 @@
       }
     };
 
+
+
     // Wishlist Toggle
     const toggleWishlist = (book, element) => {
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -161,82 +150,6 @@
     const getNextData = () => loadBooks(DATA?.next);
     const getPreviousData = () => loadBooks(DATA?.previous);
 
-    // Search Function
-    // const checkEnter = (event) => {
-    //   if (event.key === 'Enter') {
-    //     event.preventDefault();
-    //     applySearch();
-    //   }
-    // };
-
-    // const applySearch = async () => {
-    //   const query = document.getElementById("searchQuery").value.trim();
-    //   console.log(query);
-    //   if (query) {
-    //     const searchURL = `https://gutendex.com/books?search=${query}`;
-    //     await loadBooks(searchURL);
-    //   } else {
-    //     await loadBooks(APIURL);
-    //   }
-    // };
-    // HTML Layout Function
-    const searchMainContainer = document.querySelector("#liveSearch");
-    const searchContainer = document.querySelector("#liveSearch ul");
-    const searchItems = (data) => {
-      let currentContent = '';
-      data.forEach((item) => {
-        // const isInWishlist = currentWishlist.some(book => book.id === item.id);
-        // const iconColor = isInWishlist ? 'red' : 'inherit';
-        currentContent += `
-              <li>
-                <p>Image: ${item?.formats["image/jpeg"] || './assets/img/missingbook.webp'}</p>
-                <p>Title: ${item?.title}</p>
-                <p>Author: ${item?.authors[0]?.name}</p>
-                <p>Genre: ${item?.subjects[0] || 'Unknown'}</p>
-                <p>Id: ${item?.id} || 'Unknown'}</p>
-              </li>
-        `
-          ;
-      });
-      searchContainer.innerHTML = currentContent;
-    };
-
-    // ==== 
-    // const searchQuery = document.getElementById("searchQuery");
-    // searchQuery.addEventListener("input", async function () {
-    //   const query = searchQuery.value.trim();
-    //   if (query.length > 0) {
-    //     searchMainContainer.style.display = "block";
-    //     console.log("Start searching: " + query);
-    //     searchContainer.innerHTML = "Loading ...";
-    //     const searchURL = `https://gutendex.com/books?search=${query}`
-    //     let response = await fetch(searchURL);
-    //     let searchData = await response.json();
-    //     searchItems(searchData?.results);
-    //   } else {
-    //     console.log("Search query is empty");
-    //     searchMainContainer.style.display = "none";
-    //     searchContainer.innerHTML = "No Data Fount Because Query Empty";
-    //   }
-    // });
-
-    async function searchQueryData() {
-      const query = searchQuery.value.trim();
-      if (query.length > 0) {
-        searchMainContainer.style.display = "block";
-        console.log("Start searching: " + query);
-        searchContainer.innerHTML = "Loading ...";
-        const searchURL = `https://gutendex.com/books?search=${query}`
-        let response = await fetch(searchURL);
-        let searchData = await response.json();
-        searchItems(searchData?.results);
-      } else {
-        console.log("Search query is empty");
-        searchMainContainer.style.display = "none";
-        searchContainer.innerHTML = "No Data Fount Because Query Empty";
-      }
-    }
-
     // Genre Filter Function
     const applyFilter = async () => {
       const genre = document.getElementById("genreFilter").value;
@@ -250,35 +163,12 @@
     };
 
     // Initial Load
-    globalWishlist();
     loadBooks(APIURL);
 
-    // == 
-    document.addEventListener("click", (e) => {
-      (e.target != searchMainContainer) ? searchMainContainer.style.display = "none" : "block"
-    })
+
+
   </script>
 
 </body>
 
 </html>
-
-<!-- <div class="flip-card">
-  <div class="flip-card-inner">
-    <div class="flip-card-front">
-      <img src="${item?.formats[" image/jpeg"] || './assets/img/missingbook.webp' }" alt="${item?.title}" />
-    </div>
-    <div class="flip-card-back">
-      <div class="wishlist_icon_flip">
-        <span id="wishlistIconSingle" style="color: ${iconColor};"
-          onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
-      </div>
-      <div class="content_flip">
-        <h1>${item?.title}</h1>
-        <p>Author: ${item?.authors[0]?.name}</p>
-        <p>Genre: ${item?.subjects[0] || 'Unknown'}</p>
-        <a href="details.html?id=${item?.id}">Read More</a>
-      </div>
-    </div>
-  </div>
-</div> -->

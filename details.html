@@ -17,13 +17,19 @@
       <!-- Header  -->
       <!-- Header  -->
       <header>
-        <a href="index.html" class="logo">
-          <h2>BookVault</h2>
-        </a>
+        <h2>
+          <a href="index.html">
+            <span style="color: #2162AF;">Book</span><span style="color: #662D91;">Vault</span>
+          </a>
+        </h2>
         <div class="search">
-          <form action="/search" method="get">
-            <input type="text" name="q" placeholder="Enter your search query" />
-          </form>
+          <input type="text" id="searchQuery" onkeyup="searchQueryData()" ondblclick="searchQueryData()"
+            placeholder="Find your next favorite book..." />
+          <div id="liveSearch">
+            <ul>
+              <!-- Search Item Will Be Show Here  -->
+            </ul>
+          </div>
         </div>
         <div class="icon">
           <a href="wishlist.html">
@@ -37,70 +43,60 @@
       <!-- Content  -->
       <div class="content">
         <div id="bookDetails">
-          <!-- <div class="bookimage">
-              <img
-                src="https://www.gutenberg.org/cache/epub/84/pg84.cover.medium.jpg"
-                alt="Book Image"
-              />
-            </div>
-            <div class="bookcontent">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </div> -->
         </div>
       </div>
       <!-- Footer -->
       <footer>
-        Feel free to drop a 'hello' @ <span>almahmudkhalif@gmail.com</span>
+        Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
       </footer>
     </div>
   </div>
+
   <script>
-    // Global Wishlist 
-    let globalWishlist = () => {
-      const wishlistIconGlobal = document.getElementById("wishlistIconGlobal");
-      const wishlistCountGlobal = document.getElementById("wishlistCountGlobal");
-      let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      wishlistIconGlobal.style.color = currentWishlist.length ? 'red' : 'inherit';
-      wishlistCountGlobal.innerHTML = `${currentWishlist.length || 0}`;
-    }
-    globalWishlist();
-  </script>
-  <script type="module">
-    import { FetchData, ROOTAPIURL } from "./assets/js/utils.js";
     const params = new URLSearchParams(window.location.search);
     const bookId = params.get("id");
-    const APIURL = `${ROOTAPIURL}/books/${bookId}`;
-    const htmlContainer = document.querySelector("#bookDetails");
-    try {
-      let item = await FetchData(APIURL);
-      htmlContainer.innerHTML += `
-      <div class="bookimage">
-                    <img
-                     src="${item?.formats["image/jpeg"]}"
-                      alt="Book Image"
-                    />
-                  </div>
-                  <div class="bookcontent">
-                    <h1>Name: ${item?.title}</h1>
-                            <br/>
-                            <p>Author : ${item?.authors[0]?.name}</p>
-                            <br/>
-                  </div>
 
-            `;
-    } catch (error) {
-      console.log(error);
+    if (!bookId) {
+      console.log("Book ID is missing in the URL");
+    } else {
+      const APIURL = `https://gutendex.com/books/${bookId}`;
+      const htmlContainer = document.querySelector("#bookDetails");
+
+      const loadBook = async (APIURL) => {
+        try {
+          let response = await fetch(APIURL);
+
+          // Check if the response is OK (status 200-299)
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          // Try to parse the response as JSON
+          let item = await response.json();
+
+          const imageUrl = item?.formats["image/jpeg"] || "default-image.jpg";  // Fallback if no image
+
+          htmlContainer.innerHTML += `
+            <div class="bookimage">
+              <img src="${imageUrl}" alt="Book Image" />
+            </div>
+            <div class="bookcontent">
+              <h1>Name: ${item?.title}</h1>
+              <br/>
+              <p>Author : ${item?.authors[0]?.name}</p>
+              <br/>
+            </div>
+          `;
+        } catch (error) {
+          console.log("Error fetching book data:", error);
+        }
+      };
+
+      loadBook(APIURL);
     }
   </script>
+
+  <script src="./assets/js/common.js"></script>
 </body>
 
 </html>
