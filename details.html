@@ -15,7 +15,6 @@
   <div class="container">
     <div class="wrapper">
       <!-- Header  -->
-      <!-- Header  -->
       <header>
         <h2>
           <a href="index.html">
@@ -43,6 +42,7 @@
       <!-- Content  -->
       <div class="content">
         <div id="bookDetails">
+          <!-- Book Details Will Be Shown Here  -->
         </div>
       </div>
       <!-- Footer -->
@@ -51,7 +51,7 @@
       </footer>
     </div>
   </div>
-
+  <script src="./assets/js/common.js"></script>
   <script>
     const params = new URLSearchParams(window.location.search);
     const bookId = params.get("id");
@@ -65,17 +65,8 @@
       const loadBook = async (APIURL) => {
         try {
           let response = await fetch(APIURL);
-
-          // Check if the response is OK (status 200-299)
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-
-          // Try to parse the response as JSON
           let item = await response.json();
-
-          const imageUrl = item?.formats["image/jpeg"] || "default-image.jpg";  // Fallback if no image
-
+          const imageUrl = item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
           htmlContainer.innerHTML += `
             <div class="bookimage">
               <img src="${imageUrl}" alt="Book Image" />
@@ -95,8 +86,6 @@
       loadBook(APIURL);
     }
   </script>
-
-  <script src="./assets/js/common.js"></script>
 </body>
 
 </html>

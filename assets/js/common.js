@@ -57,3 +57,8 @@ document.addEventListener("click", (e) => {
     ? (searchMainContainer.style.display = "none")
     : "block";
 });
+
+// =====
+function loadingAnimation() {
+  return `<div class="loadingAnimation"><img src="./assets/img/loading.gif" /></div>`;
+}

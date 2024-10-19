@@ -191,7 +191,7 @@
   flex-wrap: nowrap;
   flex-direction: row;
   border: 1px solid #e5e7eb;
-  padding: 10px;
+  padding: 20px 20px;
   border-radius: 5px;
   margin-bottom: 15px;
 }
@@ -199,7 +199,26 @@
   height: 50px;
 }
 .container .wrapper .content #wishlist .wishlisted_book .wish_book_content {
-  margin: 0 10px;
+  margin: 0 20px;
+  width: 100%;
+}
+.container .wrapper .content #wishlist .wishlisted_book .wish_book_content h1 {
+  font-size: 21px;
+  margin-bottom: 8px;
+  font-weight: bolder;
+}
+.container .wrapper .content #wishlist .wishlisted_book .wish_book_content h2 {
+  font-size: 18px;
+}
+.container .wrapper .content #wishlist .wishlisted_book .wish_book_content h2 span {
+  font-weight: bold;
+}
+.container .wrapper .content #wishlist .wishlisted_book .wish_book_remove button {
+  border: unset;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 .container .wrapper footer {
   padding: 35px 0;
@@ -244,16 +263,12 @@
   }
 }
 .loadingAnimation {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
   height: 100vh;
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  background-color: #f0f0f0;
   z-index: 9999;
 }
 .loadingAnimation img {

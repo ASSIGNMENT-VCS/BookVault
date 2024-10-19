@@ -269,7 +269,7 @@
           flex-wrap: nowrap;
           flex-direction: row;
           border: 1px solid #e5e7eb;
-          padding: 10px;
+          padding: 20px 20px;
           border-radius: 5px;
           margin-bottom: 15px;
           .wish_book_image {
@@ -278,7 +278,28 @@
             }
           }
           .wish_book_content {
-            margin: 0 10px;
+            margin: 0 20px;
+            width: 100%;
+            h1 {
+              font-size: 21px;
+              margin-bottom: 8px;
+              font-weight: bolder;
+            }
+            h2 {
+              font-size: 18px;
+              span {
+                font-weight: bold;
+              }
+            }
+          }
+          .wish_book_remove {
+            button {
+              border: unset;
+              height: 30px;
+              width: 30px;
+              cursor: pointer;
+              border-radius: 5px;
+            }
           }
         }
       }
@@ -359,16 +380,17 @@
 
 // ===
 .loadingAnimation {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // width: 100vw;
   height: 100vh;
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  background-color: #f0f0f0;
+  // background-color: #f0f0f0;
   z-index: 9999;
   img {
     height: 100px;

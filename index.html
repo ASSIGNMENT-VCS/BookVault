@@ -40,7 +40,7 @@
         </div>
       </header>
       <!-- Content  -->
-      <div class="content">
+      <div class="content" id="mainContentContainer">
         <div id="homepage">
           <div class="total_item__filter">
             <p id="totalBooks">Showing 0 books</p>
@@ -52,16 +52,7 @@
             </select>
           </div>
           <div class="items">
-
-            <!-- <div class="item">
-  <div class="image">
-    <img src="./assets/img/missingbook.webp" alt="Image Title">
-    <span id="wishlistIconSingle">♡</span>
-  </div>
-  <div class="info">
-    abc
-  </div>
-</div> -->
+            <!-- All Books Will Be Show Here  -->
           </div>
           <div class="pagination">
             <button type="button" id="getPreviousBooks" onclick="getPreviousData()" disabled>&laquo; Previous</button>
@@ -91,12 +82,13 @@
       data.forEach((item) => {
         const isInWishlist = currentWishlist.some(book => book.id === item.id);
         const iconColor = isInWishlist ? 'red' : 'inherit';
+        const imageUrl = item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
         currentContent += `
         <div class="item">
               <div class="image">
-                <img src="${item?.formats["image/jpeg"] || './assets/img/missingbook.webp'}" alt="${item?.title}" />
+                <img src="${imageUrl}" alt="${item?.title}" />
                <span id="wishlistIconSingle" style="color: ${iconColor};"
-          onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: item?.formats["image/jpeg"] })}, this)'>♡</span>
+          onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: imageUrl })}, this)'>♡</span>
                 </div> 
               <div class="info">
                 <div> <span> Title : </span> ${item?.title || 'Unknown'}</div>
@@ -109,13 +101,15 @@
             </div>
         `;
       });
+
       booksContainer.innerHTML = currentContent;
     };
 
     // Initial Data Fetching Function
     const loadBooks = async (url) => {
+      // <div class="loadingAnimation"></div>
       try {
-        booksContainer.innerHTML = `<div class="loadingAnimation"><img src="./assets/img/loading.gif" /></div>`;
+        mainContentContainer.innerHTML = `<img class="loadingAnimation" src="./assets/img/loading.gif" />`;
         let response = await fetch(url);
         DATA = await response.json();
         bookItemsLayout(DATA?.results);
