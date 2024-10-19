@@ -18,15 +18,13 @@ const searchItems = (data) => {
   data.forEach((item) => {
     // const isInWishlist = currentWishlist.some(book => book.id === item.id);
     // const iconColor = isInWishlist ? 'red' : 'inherit';
+    const imageUrl = item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
     currentContent += `
               <li>
-                <p>Image: ${
-                  item?.formats["image/jpeg"] || "./assets/img/missingbook.webp"
-                }</p>
-                <p>Title: ${item?.title}</p>
-                <p>Author: ${item?.authors[0]?.name}</p>
-                <p>Genre: ${item?.subjects[0] || "Unknown"}</p>
-                <p>Id: ${item?.id} || 'Unknown'}</p>
+              <a href="details.html?id=${item?.id}">
+              <img src="${imageUrl}" alt="${item?.title}" />
+                <h1>${item.title}</h1>
+                </a>
               </li>
         `;
   });
@@ -60,5 +58,5 @@ document.addEventListener("click", (e) => {
 
 // =====
 function loadingAnimation() {
-  return `<div class="loadingAnimation"><img src="./assets/img/loading.gif" /></div>`;
+  return `<img class="loadingAnimation" src="./assets/img/loading.svg" />`;
 }

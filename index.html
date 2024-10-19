@@ -79,6 +79,12 @@
     const bookItemsLayout = (data) => {
       let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
       let currentContent = '';
+      // Pagination controls
+
+      previousButton.style.display = 'contents';
+      nextButton.style.display = 'contents';
+      previousButton.disabled = !DATA.previous;
+      nextButton.disabled = !DATA.next;
       data.forEach((item) => {
         const isInWishlist = currentWishlist.some(book => book.id === item.id);
         const iconColor = isInWishlist ? 'red' : 'inherit';
@@ -109,14 +115,14 @@
     const loadBooks = async (url) => {
       // <div class="loadingAnimation"></div>
       try {
-        mainContentContainer.innerHTML = `<img class="loadingAnimation" src="./assets/img/loading.gif" />`;
+        // Pagination controls
+        previousButton.style.display = 'none';
+        nextButton.style.display = 'none';
+        booksContainer.innerHTML = loadingAnimation();
         let response = await fetch(url);
         DATA = await response.json();
         bookItemsLayout(DATA?.results);
         totalBooks.innerHTML = `Showing ${DATA.count} books`;
-        // Pagination controls
-        previousButton.disabled = !DATA.previous;
-        nextButton.disabled = !DATA.next;
       } catch (error) {
         console.error("Error fetching data:", error);
         booksContainer.innerHTML = "Failed to load data.";

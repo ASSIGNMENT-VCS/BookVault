@@ -64,6 +64,7 @@
 
       const loadBook = async (APIURL) => {
         try {
+          // htmlContainer.innerHtml = loadingAnimation();
           let response = await fetch(APIURL);
           let item = await response.json();
           const imageUrl = item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";

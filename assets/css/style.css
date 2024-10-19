@@ -3,42 +3,58 @@
   margin: auto;
   padding: 0 16px;
 }
+
 .container .wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   min-height: 100vh;
 }
+
 .container .wrapper header {
+  display: -ms-grid;
   display: grid;
   grid-template: "logo icon" "search search";
   padding: 25px 0;
   row-gap: 10px;
   border-bottom: 1px solid #e5e7eb;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 .container .wrapper header h2 {
   text-transform: uppercase;
   font-size: 30px;
 }
+
 .container .wrapper header h2 a {
   grid-area: logo;
   text-decoration: none;
   color: inherit;
 }
+
 .container .wrapper header .search {
   grid-area: search;
   position: relative;
 }
+
 .container .wrapper header .search input {
   height: 50px;
   width: -webkit-fill-available;
   border: 1px solid #e5e7eb;
   padding: 0 10px;
 }
+
 .container .wrapper header .search input:focus {
   outline: none;
   border: 1px solid #662d91;
 }
+
 .container .wrapper header .search #liveSearch {
   display: none;
   position: absolute;
@@ -46,95 +62,165 @@
   z-index: 999;
   padding: 5px;
   border: 1px solid #ccc;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   max-height: 300px;
   overflow: auto;
   width: 96%;
   margin-top: 2px;
 }
+
+.container .wrapper header .search #liveSearch ul li {
+  margin: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 15px 0;
+}
+
+.container .wrapper header .search #liveSearch ul li a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+}
+
+.container .wrapper header .search #liveSearch ul li a img {
+  height: 40px;
+  min-width: 40px;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-right: 15px;
+}
+
+.container .wrapper header .search #liveSearch ul li a h1 {
+  font-size: 17px;
+}
+
 .container .wrapper header .icon {
   justify-items: end;
 }
+
 .container .wrapper header .icon a {
   grid-area: icon;
   position: relative;
   text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
+
 .container .wrapper header .icon a #wishlistIconGlobal {
-  transform: scale(0.6, 0.5);
+  -webkit-transform: scale(0.6, 0.5);
+          transform: scale(0.6, 0.5);
   font-size: 45px;
   color: gray;
 }
+
 .container .wrapper header .icon a .count {
   position: absolute;
   height: 20px;
   width: 20px;
   background-color: #662d91;
   color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   border-radius: 50%;
   font-size: 11px;
 }
+
 .container .wrapper .content {
-  flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   margin: 40px 0;
 }
+
 .container .wrapper .content #homepage .total_item__filter p {
   margin-bottom: 10px;
 }
+
 .container .wrapper .content #homepage .total_item__filter select {
   height: 35px;
   width: -webkit-fill-available;
   border: none;
   border-bottom: 1px solid #e5e7eb;
 }
+
 .container .wrapper .content #homepage .total_item__filter select:focus {
   outline: none;
   border-bottom: 1px solid black;
 }
+
 .container .wrapper .content #homepage .items {
   margin: 40px 0;
+  display: -ms-grid;
   display: grid;
   gap: 25px;
 }
+
 .container .wrapper .content #homepage .items .item {
   border-radius: 10px;
   background-color: #f5f5f5;
   width: 100%;
   min-height: 500px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   border: 1px solid #e5e7eb;
   position: relative;
 }
+
 .container .wrapper .content #homepage .items .item:hover {
   border-radius: 10px;
   border: 1px solid #cbd2d9;
 }
+
 .container .wrapper .content #homepage .items .item:hover .info {
   border-top: 1px solid #cbd2d9;
 }
+
 .container .wrapper .content #homepage .items .item .image {
   text-align: center;
   height: 300px;
   padding: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: relative;
 }
+
 .container .wrapper .content #homepage .items .item .image img {
   height: 100%;
   width: 100%;
   -o-object-fit: none;
      object-fit: none;
 }
+
 .container .wrapper .content #homepage .items .item .image #wishlistIconSingle {
-  transform: scale(0.6, 0.5);
+  -webkit-transform: scale(0.6, 0.5);
+          transform: scale(0.6, 0.5);
   font-size: 45px;
   color: gray;
   position: absolute;
@@ -142,77 +228,114 @@
   right: 0;
   cursor: pointer;
 }
+
 .container .wrapper .content #homepage .items .item .info {
   margin: 10px 15px;
   border-top: 1px solid #e5e7eb;
   padding: 25px 0 50px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   gap: 10px;
 }
+
 .container .wrapper .content #homepage .items .item .info div {
   line-height: 20px;
 }
+
 .container .wrapper .content #homepage .items .item .info div span {
   font-weight: bold;
 }
+
 .container .wrapper .content #homepage .items .item .readMore {
   height: 50px;
   bottom: 0;
   position: absolute;
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
+
 .container .wrapper .content #homepage .items .item .readMore a {
   text-align: right;
   text-decoration: none;
   color: #2162af;
   padding-right: 25px;
 }
+
 .container .wrapper .content #homepage .pagination {
-  text-align: center;
+  text-align: right;
 }
-.container .wrapper .content #homepage .pagination a {
-  padding: 5px;
+
+.container .wrapper .content #homepage .pagination button {
+  cursor: pointer;
 }
+
 .container .wrapper .content #bookDetails .bookimage {
   text-align: center;
   margin-bottom: 25px;
 }
+
 .container .wrapper .content #bookDetails .bookimage img {
   width: 50%;
 }
+
 .container .wrapper .content #wishlist .wishlisted_book {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap;
-  flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   border: 1px solid #e5e7eb;
   padding: 20px 20px;
   border-radius: 5px;
   margin-bottom: 15px;
 }
+
 .container .wrapper .content #wishlist .wishlisted_book .wish_book_image img {
   height: 50px;
 }
+
 .container .wrapper .content #wishlist .wishlisted_book .wish_book_content {
   margin: 0 20px;
   width: 100%;
 }
+
 .container .wrapper .content #wishlist .wishlisted_book .wish_book_content h1 {
   font-size: 21px;
   margin-bottom: 8px;
   font-weight: bolder;
 }
+
 .container .wrapper .content #wishlist .wishlisted_book .wish_book_content h2 {
   font-size: 18px;
 }
+
 .container .wrapper .content #wishlist .wishlisted_book .wish_book_content h2 span {
   font-weight: bold;
 }
+
 .container .wrapper .content #wishlist .wishlisted_book .wish_book_remove button {
   border: unset;
   height: 30px;
@@ -220,11 +343,13 @@
   cursor: pointer;
   border-radius: 5px;
 }
+
 .container .wrapper footer {
   padding: 35px 0;
   border-top: 1px solid #e5e7eb;
   text-align: center;
 }
+
 .container .wrapper footer span {
   font-weight: bold;
 }
@@ -232,10 +357,19 @@
 /* Min screen 426px & Max screen 9999px */
 @media (min-width: 425px) {
   .container .wrapper .content #homepage .total_item__filter {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
   .container .wrapper .content #homepage .total_item__filter p {
     margin: unset;
@@ -244,15 +378,19 @@
     width: 25% !important;
   }
   .container .wrapper .content #homepage .items {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
 }
+
 /* Min screen 426px & Max screen 9999px */
 @media (min-width: 500px) {
   .container .wrapper .content #homepage .items {
-    grid-template-columns: repeat(2, 1fr);
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
   }
 }
+
 /* Min screen 768px & Max screen 9999px */
 @media (min-width: 768px) {
   .container {
@@ -262,15 +400,21 @@
     grid-template: "logo search icon";
   }
 }
+
 .loadingAnimation {
-  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-size: 2rem;
   z-index: 9999;
 }
+
 .loadingAnimation img {
   height: 100px;
   width: 100px;
