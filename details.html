@@ -1,74 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
+    <!-- Favicon link -->
+    <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
-  <!-- Favicon link -->
-  <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="./assets/css/reset.css" />
-  <link rel="stylesheet" href="./assets/css/style.css" />
-</head>
-
-<body>
-  <div class="container">
-    <div class="wrapper">
-      <!-- Header  -->
-      <header>
-        <h2>
-          <a href="index.html">
-            <span style="color: #2162AF;">Book</span><span style="color: #662D91;">Vault</span>
-          </a>
-        </h2>
-        <div class="search">
-          <input type="text" id="searchQuery" onkeyup="searchQueryData()" ondblclick="searchQueryData()"
-            placeholder="Find your next favorite book..." />
-          <div id="liveSearch">
-            <ul>
-              <!-- Search Item Will Be Show Here  -->
-            </ul>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <!-- Header  -->
+        <header>
+          <h2>
+            <a href="index.html">
+              <span style="color: #2162af">Book</span
+              ><span style="color: #662d91">Vault</span>
+            </a>
+          </h2>
+          <div class="search">
+            <input
+              type="text"
+              id="searchQuery"
+              onkeyup="searchQueryData()"
+              placeholder="Find your next favorite book..."
+            />
+            <div id="liveSearch">
+              <ul>
+                <!-- Search Item Will Be Show Here  -->
+              </ul>
+            </div>
+          </div>
+          <div class="icon">
+            <a href="wishlist.html">
+              <span id="wishlistIconGlobal">♡</span>
+              <div class="count" id="wishlistCountGlobal">
+                <p>0</p>
+              </div>
+            </a>
+          </div>
+        </header>
+        <!-- Content  -->
+        <div id="mainContent">
+          <div id="loadingAnimation">
+            <div class="lds-spinner">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <div id="bookDetailsContent">
+            <!-- Book Details Will Be Shown Here  -->
           </div>
         </div>
-        <div class="icon">
-          <a href="wishlist.html">
-            <span id="wishlistIconGlobal">♡</span>
-            <div class="count" id="wishlistCountGlobal">
-              <p>0</p>
-            </div>
-          </a>
-        </div>
-      </header>
-      <!-- Content  -->
-      <div class="content">
-        <div id="bookDetails">
-          <!-- Book Details Will Be Shown Here  -->
-        </div>
+        <!-- Footer -->
+        <footer>
+          Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
+        </footer>
       </div>
-      <!-- Footer -->
-      <footer>
-        Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
-      </footer>
     </div>
-  </div>
-  <script src="./assets/js/common.js"></script>
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const bookId = params.get("id");
-
-    if (!bookId) {
-      console.log("Book ID is missing in the URL");
-    } else {
+    <script src="./assets/js/common.js"></script>
+    <script>
+      // Query Params => id
+      const params = new URLSearchParams(window.location.search);
+      const bookId = params.get("id");
+      // API
       const APIURL = `https://gutendex.com/books/${bookId}`;
-      const htmlContainer = document.querySelector("#bookDetails");
 
-      const loadBook = async (APIURL) => {
-        try {
-          // htmlContainer.innerHtml = loadingAnimation();
-          let response = await fetch(APIURL);
-          let item = await response.json();
-          const imageUrl = item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
-          htmlContainer.innerHTML += `
+      // HTML Elements
+      const detailsPageContainer = document.querySelector(
+        "#bookDetailsContent"
+      );
+      const bookDetailsContent = document.querySelector("#bookDetailsContent");
+
+      if (!bookId) {
+        console.log("Book ID is missing in the URL");
+      } else {
+        const loadBook = async (APIURL) => {
+          try {
+            // Loading Animation Start
+            bookDetailsContent.style.display = "none";
+            loadingAnimation.style.display = "block";
+            // Api Call
+            let response = await fetch(APIURL);
+            let item = await response.json();
+            // Loading Animation End
+            bookDetailsContent.style.display = "block";
+            loadingAnimation.style.display = "none";
+            // Start Showing Data
+            const imageUrl =
+              item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
+            detailsPageContainer.innerHTML = `
             <div class="bookimage">
               <img src="${imageUrl}" alt="Book Image" />
             </div>
@@ -79,14 +113,13 @@
               <br/>
             </div>
           `;
-        } catch (error) {
-          console.log("Error fetching book data:", error);
-        }
-      };
+          } catch (error) {
+            console.log("Error fetching book data:", error);
+          }
+        };
 
-      loadBook(APIURL);
-    }
-  </script>
-</body>
-
+        loadBook(APIURL);
+      }
+    </script>
+  </body>
 </html>

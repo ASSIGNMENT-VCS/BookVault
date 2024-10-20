@@ -18,7 +18,8 @@ const searchItems = (data) => {
   data.forEach((item) => {
     // const isInWishlist = currentWishlist.some(book => book.id === item.id);
     // const iconColor = isInWishlist ? 'red' : 'inherit';
-    const imageUrl = item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
+    const imageUrl =
+      item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
     currentContent += `
               <li>
               <a href="details.html?id=${item?.id}">
@@ -55,8 +56,3 @@ document.addEventListener("click", (e) => {
     ? (searchMainContainer.style.display = "none")
     : "block";
 });
-
-// =====
-function loadingAnimation() {
-  return `<img class="loadingAnimation" src="./assets/img/loading.svg" />`;
-}

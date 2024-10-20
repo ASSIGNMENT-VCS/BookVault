@@ -1,174 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
+    <!-- Favicon link -->
+    <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
-  <!-- Favicon link -->
-  <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="./assets/css/reset.css" />
-  <link rel="stylesheet" href="./assets/css/style.css" />
-</head>
-
-<body>
-  <div class="container">
-    <div class="wrapper">
-      <!-- Header  -->
-      <header>
-        <h2>
-          <a href="index.html">
-            <span style="color: #2162AF;">Book</span><span style="color: #662D91;">Vault</span>
-          </a>
-        </h2>
-        <div class="search">
-          <input type="text" id="searchQuery" onkeyup="searchQueryData()" ondblclick="searchQueryData()"
-            placeholder="Find your next favorite book..." />
-          <div id="liveSearch">
-            <ul>
-              <!-- Search Item Will Be Show Here  -->
-            </ul>
-          </div>
-        </div>
-        <div class="icon">
-          <a href="wishlist.html">
-            <span id="wishlistIconGlobal">♡</span>
-            <div class="count" id="wishlistCountGlobal">
-              <p>0</p>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <!-- Header  -->
+        <header>
+          <h2>
+            <a href="index.html">
+              <span style="color: #2162af">Book</span
+              ><span style="color: #662d91">Vault</span>
+            </a>
+          </h2>
+          <div class="search">
+            <input
+              type="text"
+              id="searchQuery"
+              onkeyup="searchQueryData()"
+              placeholder="Find your next favorite book..."
+            />
+            <div id="liveSearch">
+              <ul>
+                <!-- Search Item Will Be Show Here  -->
+              </ul>
             </div>
-          </a>
+          </div>
+          <div class="icon">
+            <a href="wishlist.html">
+              <span id="wishlistIconGlobal">♡</span>
+              <div class="count" id="wishlistCountGlobal">
+                <p>0</p>
+              </div>
+            </a>
+          </div>
+        </header>
+        <!-- Content  -->
+        <div id="mainContent">
+          <div id="loadingAnimation">
+            <div class="lds-spinner">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <div id="homepageContent">
+            <div class="total_item__filter">
+              <p id="totalBooks">Showing 0 books</p>
+              <select id="genreFilter" onchange="applyFilter()">
+                <option value="">All Genres</option>
+                <option value="Science fiction">Science Fiction</option>
+                <option value="Gothic fiction">Gothic Fiction</option>
+                <option value="Political science">Political Science</option>
+              </select>
+            </div>
+            <div class="items" id="bookItems">
+              <!-- All Books Will Be Show Here  -->
+            </div>
+            <div class="pagination">
+              <button
+                type="button"
+                id="getPreviousBooks"
+                onclick="getPreviousData()"
+                disabled
+              >
+                &laquo; Previous
+              </button>
+              <button
+                type="button"
+                id="getNextBooks"
+                onclick="getNextData()"
+                disabled
+              >
+                Next &raquo;
+              </button>
+            </div>
+          </div>
         </div>
-      </header>
-      <!-- Content  -->
-      <div class="content" id="mainContentContainer">
-        <div id="homepage">
-          <div class="total_item__filter">
-            <p id="totalBooks">Showing 0 books</p>
-            <select id="genreFilter" onchange="applyFilter()">
-              <option value="">All Genres</option>
-              <option value="Science fiction">Science Fiction</option>
-              <option value="Gothic fiction">Gothic Fiction</option>
-              <option value="Political science">Political Science</option>
-            </select>
-          </div>
-          <div class="items">
-            <!-- All Books Will Be Show Here  -->
-          </div>
-          <div class="pagination">
-            <button type="button" id="getPreviousBooks" onclick="getPreviousData()" disabled>&laquo; Previous</button>
-            <button type="button" id="getNextBooks" onclick="getNextData()" disabled>Next &raquo;</button>
-          </div>
-        </div>
+        <!-- Footer -->
+        <footer>
+          Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
+        </footer>
       </div>
-      <!-- Footer -->
-      <footer>
-        Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
-      </footer>
     </div>
-  </div>
-  <script src="./assets/js/common.js"></script>
-  <script>
-    const APIURL = "https://gutendex.com/books/?page=1";
-    const booksContainer = document.querySelector("#homepage .items");
-    const previousButton = document.getElementById("getPreviousBooks");
-    const nextButton = document.getElementById("getNextBooks");
-    const totalBooks = document.getElementById("totalBooks");
-    let DATA = [];
+    <script src="./assets/js/common.js"></script>
+    <script>
+      // Data
+      let DATA = [];
+      // API
+      const APIURL = "https://gutendex.com/books/?page=1";
+      // Wishlist
+      let currentWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      // HTML Element
+      const loadingAnimation = document.querySelector("#loadingAnimation");
+      const homepageContent = document.querySelector("#homepageContent");
+      const totalBooks = document.querySelector("#totalBooks");
+      const genre = document.querySelector("#genreFilter").value;
+      const booksContainer = document.querySelector("#bookItems");
+      const previousButton = document.querySelector("#getPreviousBooks");
+      const nextButton = document.querySelector("#getNextBooks");
 
-    // HTML Layout Function
-    const bookItemsLayout = (data) => {
-      let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      let currentContent = '';
-      // Pagination controls
+      // HTML Layout Function
+      const bookItemsLayout = (data) => {
+        // Loading Animation Control
+        homepageContent.style.display = "block";
+        loadingAnimation.style.display = "none";
 
-      previousButton.style.display = 'contents';
-      nextButton.style.display = 'contents';
-      previousButton.disabled = !DATA.previous;
-      nextButton.disabled = !DATA.next;
-      data.forEach((item) => {
-        const isInWishlist = currentWishlist.some(book => book.id === item.id);
-        const iconColor = isInWishlist ? 'red' : 'inherit';
-        const imageUrl = item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
-        currentContent += `
+        let currentContent = "";
+        totalBooks.innerHTML = `Showing ${DATA?.count} books`;
+        // Pagination controls
+        previousButton.disabled = !DATA.previous;
+        nextButton.disabled = !DATA.next;
+        // Load Data
+        data.forEach((item) => {
+          const isInWishlist = currentWishlist.some(
+            (book) => book.id === item.id
+          );
+          const iconColor = isInWishlist ? "red" : "inherit";
+          const imageUrl =
+            item?.formats["image/jpeg"] || "./assets/img/missingbook.webp";
+          currentContent += `
         <div class="item">
               <div class="image">
                 <img src="${imageUrl}" alt="${item?.title}" />
                <span id="wishlistIconSingle" style="color: ${iconColor};"
-          onclick='toggleWishlist(${JSON.stringify({ id: item?.id, title: item?.title, author: item?.authors[0]?.name, image: imageUrl })}, this)'>♡</span>
+          onclick='toggleWishlist(${JSON.stringify({
+            id: item?.id,
+            title: item?.title,
+            author: item?.authors[0]?.name,
+            image: imageUrl,
+          })}, this)'>♡</span>
                 </div> 
               <div class="info">
-                <div> <span> Title : </span> ${item?.title || 'Unknown'}</div>
-                <div> <span> ID : </span> ${item?.id || 'Unknown'}</div>
-                <div> <span> Author : </span> ${item?.authors[0]?.name || 'Unknown'}</div>
-                <div> <span> Genre : </span> ${item?.subjects[0] || 'Unknown'}</div>
+                <div> <span> Title : </span> ${item?.title || "Unknown"}</div>
+                <div> <span> ID : </span> ${item?.id || "Unknown"}</div>
+                <div> <span> Author : </span> ${
+                  item?.authors[0]?.name || "Unknown"
+                }</div>
+                <div> <span> Genre : </span> ${
+                  item?.subjects[0] || "Unknown"
+                }</div>
                 
               </div>
-              <div class="readMore"><a href="details.html?id=${item?.id}">Read More ...</a></div>
+              <div class="readMore"><a href="details.html?id=${
+                item?.id
+              }">Read More ...</a></div>
             </div>
         `;
-      });
+        });
 
-      booksContainer.innerHTML = currentContent;
-    };
+        booksContainer.innerHTML = currentContent;
+      };
 
-    // Initial Data Fetching Function
-    const loadBooks = async (url) => {
-      // <div class="loadingAnimation"></div>
-      try {
-        // Pagination controls
-        previousButton.style.display = 'none';
-        nextButton.style.display = 'none';
-        booksContainer.innerHTML = loadingAnimation();
-        let response = await fetch(url);
-        DATA = await response.json();
-        bookItemsLayout(DATA?.results);
-        totalBooks.innerHTML = `Showing ${DATA.count} books`;
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        booksContainer.innerHTML = "Failed to load data.";
-      }
-    };
+      // Initial Data Fetching Function
+      const loadBooks = async (url) => {
+        // <div class="loadingAnimation"></div>
+        try {
+          // Loading Control
+          homepageContent.style.display = "none";
+          loadingAnimation.style.display = "block";
+          // Data Fetch
+          let response = await fetch(url);
+          DATA = await response.json();
+          bookItemsLayout(DATA?.results);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          booksContainer.innerHTML = "Failed to load data.";
+        }
+      };
 
+      // Wishlist Toggle
+      const toggleWishlist = (book, element) => {
+        let currentWishlist =
+          JSON.parse(localStorage.getItem("wishlist")) || [];
+        const isInWishlist = currentWishlist.some(
+          (item) => item.id === book.id
+        );
+        if (isInWishlist) {
+          currentWishlist = currentWishlist.filter(
+            (item) => item.id !== book.id
+          );
+          element.style.color = "inherit";
+        } else {
+          currentWishlist.push(book);
+          element.style.color = "red";
+        }
+        localStorage.setItem("wishlist", JSON.stringify(currentWishlist));
+        globalWishlist();
+      };
 
+      // Get Next and Previous Page Data
+      const getNextData = () => loadBooks(DATA?.next);
+      const getPreviousData = () => loadBooks(DATA?.previous);
 
-    // Wishlist Toggle
-    const toggleWishlist = (book, element) => {
-      let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-      const isInWishlist = currentWishlist.some(item => item.id === book.id);
-      if (isInWishlist) {
-        currentWishlist = currentWishlist.filter(item => item.id !== book.id);
-        element.style.color = 'inherit';
-      } else {
-        currentWishlist.push(book);
-        element.style.color = 'red';
-      }
-      localStorage.setItem('wishlist', JSON.stringify(currentWishlist));
-      globalWishlist();
-    };
-
-    // Get Next and Previous Page Data
-    const getNextData = () => loadBooks(DATA?.next);
-    const getPreviousData = () => loadBooks(DATA?.previous);
-
-    // Genre Filter Function
-    const applyFilter = async () => {
-      const genre = document.getElementById("genreFilter").value;
-      console.log(genre);
-      if (genre) {
-        const filterURL = `https://gutendex.com/books?topic=${genre}`;
-        await loadBooks(filterURL);
-      } else {
-        await loadBooks(APIURL);
-      }
-    };
-
-    // Initial Load
-    loadBooks(APIURL);
-
-
-
-  </script>
-
-</body>
-
+      // Genre Filter Function
+      const applyFilter = async () => {
+        if (genre) {
+          const filterURL = `https://gutendex.com/books?topic=${genre}`;
+          await loadBooks(filterURL);
+        } else {
+          await loadBooks(APIURL);
+        }
+      };
+      // Initial Load
+      loadBooks(APIURL);
+    </script>
+  </body>
 </html>

@@ -1,65 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
+    <!-- Favicon link -->
+    <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BookVault | A Vanilla JavaScript Book Listing Application</title>
-  <!-- Favicon link -->
-  <link rel="icon" href="./assets/img/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="./assets/css/reset.css" />
-  <link rel="stylesheet" href="./assets/css/style.css" />
-</head>
-
-<body>
-  <div class="container">
-    <div class="wrapper">
-      <!-- Header  -->
-      <header>
-        <h2>
-          <a href="index.html">
-            <span style="color: #2162AF;">Book</span><span style="color: #662D91;">Vault</span>
-          </a>
-        </h2>
-        <div class="search">
-          <input type="text" id="searchQuery" onkeyup="searchQueryData()" ondblclick="searchQueryData()"
-            placeholder="Find your next favorite book..." />
-          <div id="liveSearch">
-            <ul>
-              <!-- Search Item Will Be Show Here  -->
-            </ul>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <!-- Header  -->
+        <header>
+          <h2>
+            <a href="index.html">
+              <span style="color: #2162af">Book</span
+              ><span style="color: #662d91">Vault</span>
+            </a>
+          </h2>
+          <div class="search">
+            <input
+              type="text"
+              id="searchQuery"
+              onkeyup="searchQueryData()"
+              placeholder="Find your next favorite book..."
+            />
+            <div id="liveSearch">
+              <ul>
+                <!-- Search Item Will Be Show Here  -->
+              </ul>
+            </div>
+          </div>
+          <div class="icon">
+            <a href="wishlist.html">
+              <span id="wishlistIconGlobal">♡</span>
+              <div class="count" id="wishlistCountGlobal">
+                <p>0</p>
+              </div>
+            </a>
+          </div>
+        </header>
+        <!-- Content  -->
+        <div id="mainContent">
+          <div id="loadingAnimation">
+            <div class="lds-spinner">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+          <div id="wishlist">
+            <!-- All Wishlisted Books Will Be Shown Here  -->
           </div>
         </div>
-        <div class="icon">
-          <a href="wishlist.html">
-            <span id="wishlistIconGlobal">♡</span>
-            <div class="count" id="wishlistCountGlobal">
-              <p>0</p>
-            </div>
-          </a>
-        </div>
-      </header>
-      <!-- Content  -->
-      <div class="content">
-        <div id="wishlist">
-          <!-- All Wishlisted Books Will Be Shown Here  -->
-        </div>
+        <!-- Footer -->
+        <footer>
+          Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
+        </footer>
       </div>
-      <!-- Footer -->
-      <footer>
-        Feel free to drop us a 'hello' at <span>support@bookvault.com</span>
-      </footer>
     </div>
-  </div>
-  <script src="./assets/js/common.js"></script>
-  <script>
-    let currentWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    let loadWishListData = () => {
-      let wishListsContainer = document.getElementById("wishlist");
-      let htmlContent = '';
-      if (currentWishlist.length > 0) {
-        currentWishlist.forEach(book => {
-          htmlContent += `
+    <script src="./assets/js/common.js"></script>
+    <script>
+      let currentWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      let loadWishListData = () => {
+        let wishListsContainer = document.querySelector("#wishlist");
+        let htmlContent = "";
+        if (currentWishlist.length > 0) {
+          currentWishlist.forEach((book) => {
+            htmlContent += `
         <div class="wishlisted_book">
           <div class="wish_book_image">
             <img src="${book.image}" alt="Book Image" />
@@ -73,25 +93,23 @@
             
           </div>
         </div>`;
-        });
-        wishListsContainer.innerHTML = htmlContent;
-      } else {
-        wishListsContainer.innerHTML = `You Do Not Add Any Item In Wishlist. Check Books From <a href="/">Here</a>`;
-      }
-    }
-    loadWishListData();
-
-    function removeFromWishlist(bookId) {
-      const updatedWishlist = currentWishlist.filter(book => book.id !== bookId);
-      currentWishlist = updatedWishlist;
-      localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+          });
+          wishListsContainer.innerHTML = htmlContent;
+        } else {
+          wishListsContainer.innerHTML = `You Do Not Add Any Item In Wishlist. Check Books From <a href="/">Here</a>`;
+        }
+      };
       loadWishListData();
-      globalWishlist();
-    }
-    console.log(loadingAnimation());
-  </script>
 
-
-</body>
-
+      function removeFromWishlist(bookId) {
+        const updatedWishlist = currentWishlist.filter(
+          (book) => book.id !== bookId
+        );
+        currentWishlist = updatedWishlist;
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        loadWishListData();
+        globalWishlist();
+      }
+    </script>
+  </body>
 </html>
