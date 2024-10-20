@@ -38,7 +38,7 @@ async function searchQueryData() {
   if (query.length > 0) {
     searchMainContainer.style.display = "block";
     console.log("Start searching: " + query);
-    searchContainer.innerHTML = "Loading ...";
+    searchContainer.innerHTML = `<div id="liveSearchLoading"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>`;
     const searchURL = `https://gutendex.com/books?search=${query}`;
     let response = await fetch(searchURL);
     let searchData = await response.json();
