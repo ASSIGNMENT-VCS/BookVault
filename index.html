@@ -112,7 +112,7 @@
       const loadingAnimation = document.querySelector("#loadingAnimation");
       const homepageContent = document.querySelector("#homepageContent");
       const totalBooks = document.querySelector("#totalBooks");
-      const genre = document.querySelector("#genreFilter").value;
+      const genre = document.querySelector("#genreFilter");
       const booksContainer = document.querySelector("#bookItems");
       const previousButton = document.querySelector("#getPreviousBooks");
       const nextButton = document.querySelector("#getNextBooks");
@@ -212,8 +212,8 @@
 
       // Genre Filter Function
       const applyFilter = async () => {
-        if (genre) {
-          const filterURL = `https://gutendex.com/books?topic=${genre}`;
+        if (genre?.value) {
+          const filterURL = `https://gutendex.com/books?topic=${genre?.value}`;
           await loadBooks(filterURL);
         } else {
           await loadBooks(APIURL);
