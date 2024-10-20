@@ -287,9 +287,20 @@
 .container .wrapper #mainContent #bookDetailsContent .bookimage {
   text-align: center;
   margin-bottom: 25px;
+  position: relative;
 }
 .container .wrapper #mainContent #bookDetailsContent .bookimage img {
   width: 50%;
+}
+.container .wrapper #mainContent #bookDetailsContent .bookimage #wishlistIconSingle {
+  transform: scale(0.6, 0.5);
+  font-size: 70px;
+  color: gray;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-weight: bolder;
 }
 .container .wrapper #mainContent #bookDetailsContent .bookcontent h1 {
   font-size: 30px;

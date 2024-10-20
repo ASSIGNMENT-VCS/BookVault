@@ -85,9 +85,14 @@
       );
       const bookDetailsContent = document.querySelector("#bookDetailsContent");
 
+      // Wishlist
+      let currentWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
       if (!bookId) {
         console.log("Book ID is missing in the URL");
       } else {
+        const isInWishlist = currentWishlist.some((book) => book.id === bookId);
+        const iconColor = isInWishlist ? "red" : "inherit";
         const loadBook = async (APIURL) => {
           try {
             // Loading Animation Start
@@ -105,6 +110,13 @@
             detailsPageContainer.innerHTML = `
             <div class="bookimage">
               <img src="${imageUrl}" alt="Book Image" />
+              <span id="wishlistIconSingle" style="color: ${iconColor};"
+          onclick='toggleWishlist(${JSON.stringify({
+            id: item?.id,
+            title: item?.title,
+            author: item?.authors[0]?.name,
+            image: imageUrl,
+          })}, this)'>♡</span>
             </div>
             <div class="bookcontent">
               <h1>${item?.title}</h1>
@@ -137,6 +149,25 @@
 
         loadBook(APIURL);
       }
+      // Wishlist Toggle
+      const toggleWishlist = (book, element) => {
+        let currentWishlist =
+          JSON.parse(localStorage.getItem("wishlist")) || [];
+        const isInWishlist = currentWishlist.some(
+          (item) => item.id === book.id
+        );
+        if (isInWishlist) {
+          currentWishlist = currentWishlist.filter(
+            (item) => item.id !== book.id
+          );
+          element.style.color = "inherit";
+        } else {
+          currentWishlist.push(book);
+          element.style.color = "red";
+        }
+        localStorage.setItem("wishlist", JSON.stringify(currentWishlist));
+        globalWishlist();
+      };
     </script>
   </body>
 </html>
