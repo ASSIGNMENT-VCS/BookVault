@@ -91,7 +91,7 @@
       if (!bookId) {
         console.log("Book ID is missing in the URL");
       } else {
-        const isInWishlist = currentWishlist.some((book) => book.id === bookId);
+        const isInWishlist = currentWishlist.some((book) => book.id == bookId);
         const iconColor = isInWishlist ? "red" : "inherit";
         const loadBook = async (APIURL) => {
           try {
