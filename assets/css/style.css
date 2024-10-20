@@ -291,6 +291,20 @@
 .container .wrapper #mainContent #bookDetailsContent .bookimage img {
   width: 50%;
 }
+.container .wrapper #mainContent #bookDetailsContent .bookcontent h1 {
+  font-size: 30px;
+  font-weight: bold;
+}
+.container .wrapper #mainContent #bookDetailsContent .bookcontent p {
+  font-size: 18px;
+}
+.container .wrapper #mainContent #bookDetailsContent .bookcontent p span {
+  font-weight: bold;
+}
+.container .wrapper #mainContent #bookDetailsContent .bookcontent ul li {
+  font-size: 18px;
+  line-height: 30px;
+}
 .container .wrapper #mainContent #wishlist .wishlisted_book {
   display: flex;
   justify-content: space-between;

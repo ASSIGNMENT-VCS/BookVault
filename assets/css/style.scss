@@ -334,6 +334,24 @@
             width: 50%;
           }
         }
+        .bookcontent {
+          h1 {
+            font-size: 30px;
+            font-weight: bold;
+          }
+          p {
+            font-size: 18px;
+            span {
+              font-weight: bold;
+            }
+          }
+          ul {
+            li {
+              font-size: 18px;
+              line-height: 30px;
+            }
+          }
+        }
       }
       // Wishlist Page
       #wishlist {

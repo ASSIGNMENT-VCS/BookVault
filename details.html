@@ -107,10 +107,27 @@
               <img src="${imageUrl}" alt="Book Image" />
             </div>
             <div class="bookcontent">
-              <h1>Name: ${item?.title}</h1>
+              <h1>${item?.title}</h1>
               <br/>
-              <p>Author : ${item?.authors[0]?.name}</p>
+              <p> <span>Author :</span> ${item?.authors[0]?.name}</p>
               <br/>
+              <p> <span>Total Downloads :</span>  ${item?.download_count}</p>
+              <br/><br/>
+              <h1>Subjects</h1>
+              <br/>
+              <ul>
+              ${item?.subjects
+                .map((subject) => `<li> - ${subject}</li>`)
+                .join("")}
+              </ul>
+               <br/> <br/>
+              <h1>Bookselves</h1>
+              <br/>
+              <ul>
+              ${item?.bookshelves
+                .map((bookshelve) => `<li> - ${bookshelve}</li>`)
+                .join("")}
+              </ul>
             </div>
           `;
           } catch (error) {
